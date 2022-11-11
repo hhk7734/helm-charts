@@ -1,3 +1,6 @@
+metacontroller:
+  enabled: true
+
 pipeline:
   appVersion: 2.0.0-alpha.3
   apiServer:
