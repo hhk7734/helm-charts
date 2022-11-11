@@ -1,0 +1,33 @@
+pipeline:
+  appVersion: 2.0.0-alpha.3
+  apiServer:
+    image:
+      repository: gcr.io/ml-pipeline/api-server
+      tag: 2.0.0-alpha.3
+  persistenceAgent:
+    image:
+      repository: gcr.io/ml-pipeline/persistenceagent
+      tag: 2.0.0-alpha.3
+  scheduledWorkflow:
+    image:
+      repository: gcr.io/ml-pipeline/scheduledworkflow
+      tag: 2.0.0-alpha.3
+  frontend:
+    image:
+      repository: gcr.io/ml-pipeline/frontend
+      tag: 2.0.0-alpha.3
+  viewerCrdController:
+    image:
+      repository: gcr.io/ml-pipeline/viewer-crd-controller
+      tag: 2.0.0-alpha.3
+  visualizationServer:
+    image:
+      repository: gcr.io/ml-pipeline/visualization-server
+      tag: 2.0.0-alpha.3
+  cacheServer:
+    image:
+      repository: gcr.io/ml-pipeline/cache-server
+      tag: 2.0.0-alpha.3
+
+crds:
+  install: true
