@@ -33,6 +33,8 @@ spec:
             - --db_user=$(DBCONFIG_USER)
             - --db_password=$(DBCONFIG_PASSWORD)
             - --namespace_to_watch=$(NAMESPACE_TO_WATCH)
+            - --tls_cert_filename=tls.crt
+            - --tls_key_filename=tls.key
           env:
             - name: CACHE_IMAGE
               valueFrom:
