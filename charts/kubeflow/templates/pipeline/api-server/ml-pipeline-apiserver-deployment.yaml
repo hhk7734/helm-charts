@@ -90,7 +90,7 @@ spec:
                   name: mlpipeline-minio-artifact
           envFrom:
             - configMapRef:
-                name: pipeline-api-server-config-f4t72426kt
+                name: pipeline-api-server-config
           image: gcr.io/ml-pipeline/api-server:2.0.0-alpha.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
