@@ -42,11 +42,33 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OBJECTSTORECONFIG_SECURE
-              value: "false"
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreSecure
+                  name: pipeline-install-config
+            {{- if .Values.pipeline.objectStore.host }}
+            - name: OBJECTSTORECONFIG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreHost
+                  name: pipeline-install-config
+            {{- end }}
+            - name: OBJECTSTORECONFIG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStorePort
+                  name: pipeline-install-config
+            {{- if .Values.pipeline.objectStore.region }}
+            - name: OBJECTSTORECONFIG_REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreRegion
+                  name: pipeline-install-config
+            {{- end }}
             - name: OBJECTSTORECONFIG_BUCKETNAME
               valueFrom:
                 configMapKeyRef:
-                  key: bucketName
+                  key: objectStoreBucketName
                   name: pipeline-install-config
             - name: DBCONFIG_USER
               valueFrom:

@@ -32,5 +32,19 @@ pipeline:
       repository: gcr.io/ml-pipeline/cache-server
       tag: 2.0.0-alpha.3
 
+  objectStore:
+    # S3
+    # secure: "true"
+    # host: "s3.amazonaws.com"
+    # port: ""
+    # region: us-west-2
+    secure: "false"
+    host: ""
+    port: "9000"
+    region: ""
+    accesskey: "minio"
+    secretkey: "minio123"
+    bucketName: mlpipeline
+
 crds:
   install: true
