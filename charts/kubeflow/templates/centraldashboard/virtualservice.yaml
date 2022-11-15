@@ -1,0 +1,27 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: centraldashboard
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: centraldashboard
+    app.kubernetes.io/component: centraldashboard
+    app.kubernetes.io/name: centraldashboard
+    kustomize.component: centraldashboard
+spec:
+  gateways:
+    - {{ .Values.istio.gateway | quote }}
+  hosts:
+    - {{ .Values.istio.host | quote }}
+  http:
+    - match:
+        - uri:
+            prefix: /
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: centraldashboard.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            port:
+              number: 80
