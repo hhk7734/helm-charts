@@ -11,7 +11,7 @@ metadata:
     kustomize.component: centraldashboard
 spec:
   gateways:
-    - {{ .Values.istio.gateway | quote }}
+    - kubeflow-gateway
   hosts:
     - {{ .Values.istio.host | quote }}
   http:

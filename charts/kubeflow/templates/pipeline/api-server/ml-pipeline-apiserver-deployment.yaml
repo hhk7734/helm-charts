@@ -29,7 +29,7 @@ spec:
       containers:
         - env:
             - name: KUBEFLOW_USERID_HEADER
-              value: kubeflow-userid
+              value: x-auth-request-email
             - name: KUBEFLOW_USERID_PREFIX
               value: ""
             - name: AUTO_UPDATE_PIPELINE_DEFAULT_VERSION

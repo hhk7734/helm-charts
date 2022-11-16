@@ -8,7 +8,7 @@ metadata:
     kustomize.component: profiles
 spec:
   gateways:
-    - {{ .Values.istio.gateway | quote }}
+    - kubeflow-gateway
   hosts:
     - {{ .Values.istio.host | quote }}
   http:

@@ -2,7 +2,7 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: central-dashboard
+  name: centraldashboard
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
     app: centraldashboard
@@ -18,4 +18,4 @@ spec:
     - from:
         - source:
             principals:
-              - cluster.local/ns/istio-system/sa/istio-ingress
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway
