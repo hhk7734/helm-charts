@@ -26,8 +26,14 @@ spec:
         app.kubernetes.io/name: kubeflow-pipelines
         application-crd-id: kubeflow-pipelines
     spec:
+      serviceAccountName: ml-pipeline-ui
       containers:
-        - env:
+        - name: ml-pipeline-ui
+          image: gcr.io/ml-pipeline/frontend:2.0.0-alpha.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
             - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
               value: /etc/config/viewer-pod-template.json
             - name: DEPLOYMENT
@@ -41,9 +47,28 @@ spec:
             - name: ENABLE_AUTHZ
               value: "true"
             - name: KUBEFLOW_USERID_HEADER
-              value: kubeflow-userid
+              value: x-auth-request-email
             - name: KUBEFLOW_USERID_PREFIX
               value: ""
+            {{- if eq .Values.pipeline.objectStore.host "s3.amazonaws.com" }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: accesskey
+                  name: mlpipeline-minio-artifact
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secretkey
+                  name: mlpipeline-minio-artifact
+            {{- if .Values.pipeline.objectStore.region }}
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreRegion
+                  name: pipeline-install-config
+            {{- end }}
+            {{- else }}
             - name: MINIO_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -58,10 +83,9 @@ spec:
                 secretKeyRef:
                   key: secretkey
                   name: mlpipeline-minio-artifact
+            {{- end }}
             - name: ALLOW_CUSTOM_VISUALIZATIONS
               value: "true"
-          image: gcr.io/ml-pipeline/frontend:2.0.0-alpha.3
-          imagePullPolicy: IfNotPresent
           livenessProbe:
             exec:
               command:
@@ -74,9 +98,6 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
-          name: ml-pipeline-ui
-          ports:
-            - containerPort: 3000
           readinessProbe:
             exec:
               command:
@@ -97,7 +118,6 @@ spec:
             - mountPath: /etc/config
               name: config-volume
               readOnly: true
-      serviceAccountName: ml-pipeline-ui
       volumes:
         - configMap:
             name: ml-pipeline-ui-configmap

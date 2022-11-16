@@ -10,7 +10,43 @@ metadata:
 data:
   viewer-pod-template.json: |-
     {
-        "spec": {
-            "serviceAccountName": "default-editor"
-        }
+      "spec": {
+        "serviceAccountName": "default-editor"{{- if eq .Values.pipeline.objectStore.host "s3.amazonaws.com" }},
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "AWS_ACCESS_KEY_ID",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "mlpipeline-minio-artifact",
+                    "key": "accesskey"
+                  }
+                }
+              },
+              {
+                "name": "AWS_SECRET_ACCESS_KEY",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "mlpipeline-minio-artifact",
+                    "key": "secretkey"
+                  }
+                }
+              {{- if .Values.pipeline.objectStore.region }}
+              },
+              {
+                "name": "AWS_REGION",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "pipeline-install-config",
+                    "key": "objectStoreRegion"
+                  }
+                }
+              {{- end }}
+              }
+            ]
+          }
+        ]
+        {{- end }}
+      }
     }
