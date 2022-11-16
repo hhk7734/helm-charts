@@ -1,0 +1,16 @@
+---
+# Source: gateway/templates/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubeflow-gateway
+  namespace: {{ include "kubeflow.namespace" . }}
+rules:
+- apiGroups:
+    - ""
+  resources:
+    - "secrets"
+  verbs:
+    - "get"
+    - "watch"
+    - "list"

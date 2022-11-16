@@ -1,0 +1,67 @@
+---
+# Source: gateway/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-gateway
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: kubeflow-gateway
+    istio: kubeflow-gateway
+    app.kubernetes.io/name: kubeflow-gateway
+    app.kubernetes.io/version: {{ .Values.istio.version | quote }}
+spec:
+  selector:
+    matchLabels:
+      app: kubeflow-gateway
+      istio: kubeflow-gateway
+  template:
+    metadata:
+      annotations:
+        inject.istio.io/templates: gateway
+        prometheus.io/path: /stats/prometheus
+        prometheus.io/port: "15020"
+        prometheus.io/scrape: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        sidecar.istio.io/inject: "true"
+        {{- with .Values.istio.revision }}
+        istio.io/rev: {{ . | quote }}
+        {{- end }}
+        app: kubeflow-gateway
+        istio: kubeflow-gateway
+        app.kubernetes.io/name: kubeflow-gateway
+        app.kubernetes.io/version: {{ .Values.istio.version | quote }}
+    spec:
+      serviceAccountName: kubeflow-gateway
+      # securityContext:
+      #   # Safe since 1.22: https://github.com/kubernetes/kubernetes/pull/103326
+      #   sysctls:
+      #     - name: net.ipv4.ip_unprivileged_port_start
+      #       value: "0"
+      containers:
+        - name: istio-proxy
+          # "auto" will be populated at runtime by the mutating webhook. See https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#customizing-injection
+          image: auto
+          securityContext:
+            # Safe since 1.22: https://github.com/kubernetes/kubernetes/pull/103326
+            capabilities:
+              drop:
+                - ALL
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsUser: 1337
+            runAsGroup: 1337
+            runAsNonRoot: true
+          ports:
+            - containerPort: 15090
+              protocol: TCP
+              name: http-envoy-prom
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
