@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-oauth2-proxy
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app.kubernetes.io/name: kubeflow-oauth2-proxy
+spec:
+  selector:
+    app.kubernetes.io/name: kubeflow-oauth2-proxy
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 4180
+      targetPort: http
+      protocol: TCP

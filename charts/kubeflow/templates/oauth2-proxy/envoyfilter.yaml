@@ -1,0 +1,68 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: kubeflow-oauth2-proxy
+  namespace: {{ include "kubeflow.namespace" . }}
+spec:
+  workloadSelector:
+    labels:
+      app: kubeflow-gateway
+      istio: kubeflow-gateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: envoy.filters.network.http_connection_manager
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            status_on_error:
+              code: ServiceUnavailable
+            http_service:
+              authorization_request:
+                allowed_headers:
+                  patterns:
+                    - exact: cookie
+              authorization_response:
+                allowed_upstream_headers:
+                  patterns:
+                    - exact: x-auth-request-email
+              server_uri:
+                uri: http://kubeflow-oauth2-proxy.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+                timeout: 10s
+                cluster: outbound|4180||kubeflow-oauth2-proxy.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+    - applyTo: HTTP_ROUTE
+      match:
+        routeConfiguration:
+          vhost:
+            name: kubeflow.internal.hits.ai:80
+            route:
+              name: kubeflow-oauth2-proxy-oauth2
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.ext_authz:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+              disabled: true
+    - applyTo: HTTP_ROUTE
+      match:
+        routeConfiguration:
+          vhost:
+            name: kubeflow.internal.hits.ai:80
+            route:
+              name: kubeflow-oauth2-proxy-oauth2-signout
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.ext_authz:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+              disabled: true
