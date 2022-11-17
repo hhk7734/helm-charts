@@ -121,10 +121,10 @@ data:
                 if pipeline_enabled != "true":
                     return {"status": {}, "children": []}
 
-                desired_configmap_count = 1
+                desired_configmap_count = 2
                 desired_resources = []
                 if kfp_default_pipeline_root:
-                    desired_configmap_count = 2
+                    desired_configmap_count += 1
                     desired_resources += [{
                         "apiVersion": "v1",
                         "kind": "ConfigMap",
@@ -149,6 +149,42 @@ data:
                         len(children["AuthorizationPolicy.security.istio.io/v1beta1"]) == 1 and
                         "True" or "False"
                 }
+
+                desired_resources += [
+                    {
+                        "apiVersion": "v1",
+                        "kind": "ConfigMap",
+                        "metadata": {
+                            "name": "artifact-repositories",
+                            "namespace": namespace,
+                            "labels": {
+                                "application-crd-id": "kubeflow-pipelines",
+                            },
+                            "annotations": {
+                                "workflows.argoproj.io/default-artifact-repository": "artifactRepository",
+                            },
+                        },
+                        "data": {
+                            "artifactRepository": """
+    archiveLogs: true
+    s3:
+      endpoint: {{ .Values.pipeline.objectStore.host }}
+      bucket: {{ .Values.pipeline.objectStore.bucketName }}
+      {{- with .Values.pipeline.objectStore.region }}
+      region: {{ . }}
+      {{- end }}
+      keyFormat: {{ .Values.pipeline.objectStore.keyFormat | quote }}
+      insecure: true
+      accessKeySecret:
+        name: mlpipeline-minio-artifact
+        key: accesskey
+      secretKeySecret:
+        name: mlpipeline-minio-artifact
+        key: secretkey
+    """
+                        },
+                    },
+                ]
 
                 # Generate the desired child object(s).
                 desired_resources += [
