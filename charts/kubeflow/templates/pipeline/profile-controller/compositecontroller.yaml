@@ -9,6 +9,11 @@ metadata:
     app.kubernetes.io/name: kubeflow-pipelines
     application-crd-id: kubeflow-pipelines
 spec:
+  generateSelector: true
+  resyncPeriodSeconds: 3600
+  parentResource:
+    apiVersion: v1
+    resource: namespaces
   childResources:
     - apiVersion: v1
       resource: secrets
@@ -34,12 +39,7 @@ spec:
       resource: authorizationpolicies
       updateStrategy:
         method: InPlace
-  generateSelector: true
   hooks:
     sync:
       webhook:
-        url: http://kubeflow-pipelines-profile-controller/sync
-  parentResource:
-    apiVersion: v1
-    resource: namespaces
-  resyncPeriodSeconds: 3600
+        url: http://kubeflow-pipelines-profile-controller.{{ include "kubeflow.namespace" . }}/sync
