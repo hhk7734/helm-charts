@@ -5,6 +5,9 @@ data:
       endpoint: {{ .Values.pipeline.objectStore.host }}
       bucket: {{ .Values.pipeline.objectStore.bucketName }}
       # Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/names/
+      {{- with .Values.pipeline.objectStore.region }}
+      region: {{ . }}
+      {{- end }}
       keyFormat: {{ .Values.pipeline.objectStore.keyFormat | quote }}
       # insecure will disable TLS. Primarily used for minio installs not configured with TLS
       insecure: true
