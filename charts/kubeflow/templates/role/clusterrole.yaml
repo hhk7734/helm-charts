@@ -2,6 +2,17 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  name: kubeflow-admin
+rules: []
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
   name: kubeflow-edit
   labels:
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
