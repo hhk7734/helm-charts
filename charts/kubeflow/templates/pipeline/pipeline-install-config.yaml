@@ -23,12 +23,12 @@ data:
   cacheDb: cachedb
   pipelineDb: mlpipeline
   objectStoreSecure: {{ .Values.pipeline.objectStore.secure | quote }}
-  {{- if .Values.pipeline.objectStore.host }}
-  objectStoreHost: {{ .Values.pipeline.objectStore.host }}
+  {{- with .Values.pipeline.objectStore.host }}
+  objectStoreHost: {{ . }}
   {{- end }}
   objectStorePort: {{ .Values.pipeline.objectStore.port | quote }}
-  {{- if .Values.pipeline.objectStore.region }}
-  objectStoreRegion: {{ .Values.pipeline.objectStore.region }}
+  {{- with .Values.pipeline.objectStore.region }}
+  objectStoreRegion: {{ . }}
   {{- end }}
   objectStoreBucketName: {{ .Values.pipeline.objectStore.bucketName | quote }}
   ## defaultPipelineRoot: Optional. Default pipeline root in v2 compatible mode.
