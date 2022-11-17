@@ -4,7 +4,7 @@ rbac:
 image:
   repository: metacontrollerio/metacontroller
   pullPolicy: IfNotPresent
-  tag: "dev"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -21,7 +21,7 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext: {}
-  # fsGroup: 65532
+  # fsGroup: 2000
 
 securityContext: {}
   # capabilities:
@@ -29,7 +29,7 @@ securityContext: {}
   #   - ALL
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
-  # runAsUser: 65532
+  # runAsUser: 1000
 
 resources: {}
   # limits:
@@ -45,12 +45,21 @@ tolerations: []
 
 affinity: {}
 
-# Command which is used to start metacontroller
-command: "/usr/bin/metacontroller"
+zap: {}
+  # logLevel: 4
+  # devel: "production"
+  # encoder: "json"
+  # stacktraceLevel: "info"
 
-# Command arguments which are used to start metacontroller
+# Custom arguments which are used to start metacontroller
 commandArgs:
   - --leader-election
+
+# How often to refresh discovery cache to pick up newly-installed resources
+discoveryInterval: 20s
+
+# How often to flush local caches and relist objects from the API server
+cacheFlushInterval: 30m
 
 # The name of the PriorityClass that will be assigned to metacontroller
 priorityClassName: ""

@@ -6,5 +6,5 @@ version: 0.1.0
 appVersion: 0.1.0
 dependencies:
   - name: metacontroller
-    version: v4.5.7
+    version: v2.6.1
     condition: metacontroller.enabled

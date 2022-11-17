@@ -1,6 +1,6 @@
 dependencies:
 - name: metacontroller
   repository: ""
-  version: v4.5.7
-digest: sha256:11d2aa811fe9793c066f7a7cb36e86bbfd7afcd00e709d68a126f778467ea67c
-generated: "2022-11-11T22:25:17.79782819+09:00"
+  version: v2.6.1
+digest: sha256:6bd9bcf61f87f8fa1eda7b112fc36a87e576986138a093bc17dadf391bb974fc
+generated: "2022-11-17T18:22:15.666419677+09:00"
