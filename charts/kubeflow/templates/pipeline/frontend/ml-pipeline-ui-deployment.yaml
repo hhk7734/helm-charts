@@ -61,12 +61,9 @@ spec:
                 secretKeyRef:
                   key: secretkey
                   name: mlpipeline-minio-artifact
-            {{- if .Values.pipeline.objectStore.region }}
+            {{- with .Values.pipeline.objectStore.region }}
             - name: AWS_REGION
-              valueFrom:
-                configMapKeyRef:
-                  key: objectStoreRegion
-                  name: pipeline-install-config
+              value: {{ . }}
             {{- end }}
             {{- else }}
             - name: MINIO_NAMESPACE

@@ -312,6 +312,32 @@ data:
                                             "containerPort": 3000
                                         }],
                                         "env": [
+                                            {{- if eq .Values.pipeline.objectStore.host "s3.amazonaws.com" }}
+                                            {
+                                                "name": "AWS_ACCESS_KEY_ID",
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "key": "accesskey",
+                                                        "name": "mlpipeline-minio-artifact"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "AWS_SECRET_ACCESS_KEY",
+                                                "valueFrom": {
+                                                    "secretKeyRef": {
+                                                        "key": "secretkey",
+                                                        "name": "mlpipeline-minio-artifact"
+                                                    }
+                                                }
+                                            },
+                                            {{- with .Values.pipeline.objectStore.region }}
+                                            {
+                                                "name": "AWS_REGION",
+                                                "value": "{{ . }}"
+                                            },
+                                            {{- end }}
+                                            {{- else }}
                                             {
                                                 "name": "MINIO_ACCESS_KEY",
                                                 "valueFrom": {
@@ -329,7 +355,8 @@ data:
                                                         "name": "mlpipeline-minio-artifact"
                                                     }
                                                 }
-                                            }
+                                            },
+                                            {{- end }}
                                         ],
                                         "resources": {
                                             "requests": {
@@ -342,8 +369,7 @@ data:
                                             },
                                         }
                                     }],
-                                    "serviceAccountName":
-                                        "default-editor"
+                                    "serviceAccountName": "default-editor"
                                 }
                             }
                         }
