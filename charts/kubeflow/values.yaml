@@ -49,7 +49,7 @@ pipeline:
     # port: ""
     # region: us-west-2
     secure: "false"
-    host: ""
+    host: "minio.kubeflow"
     port: "9000"
     region: ""
     accesskey: "minio"

@@ -68,7 +68,7 @@ spec:
             - name: OBJECTSTORECONFIG_BUCKETNAME
               valueFrom:
                 configMapKeyRef:
-                  key: objectStoreBucketName
+                  key: objectStoreBucket
                   name: pipeline-install-config
             - name: DBCONFIG_USER
               valueFrom:

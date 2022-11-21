@@ -4,7 +4,7 @@ rbac:
 image:
   repository: metacontrollerio/metacontroller
   pullPolicy: IfNotPresent
-  tag: ""
+  tag: "dev"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -51,12 +51,18 @@ command: "/usr/bin/metacontroller"
 # Command arguments which are used to start metacontroller
 commandArgs:
   - --zap-log-level=4
-  - --discovery-interval=20s
-  - --cache-flush-interval=30m
-  - --health-probe-bind-address=:8081
-
-probes:
-  port: 8081
+  - --zap-devel=false
+  - --zap-encoder=json
+  - --zap-stacktrace-level=error
+  - --discovery-interval=1m
+  - --cache-flush-interval=10m
+  - --metrics-address=:9999
+  - --client-go-qps=150
+  - --client-go-burst=300
+  - --workers=50
+  - --events-qps=0.0033
+  - --events-burst=25
+  - --pprof-address=:6060
 
 # The name of the PriorityClass that will be assigned to metacontroller
 priorityClassName: ""
@@ -77,12 +83,3 @@ replicas: 1
 podDisruptionBudget: {}
   # minAvailable: 1
   # maxUnavailable: 0
-
-
-service:
-  enabled: false
-  ports: []
-#    - name: "metrics"
-#      port: 9999
-#      protocol: "TCP"
-#      targetPort: "metrics"

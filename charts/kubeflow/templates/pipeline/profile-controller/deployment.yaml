@@ -42,6 +42,32 @@ spec:
                   key: defaultPipelineRoot
                   name: pipeline-install-config
                   optional: true
+            - name: OBJECT_STORE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreHost
+                  name: pipeline-install-config
+            - name: OBJECT_STORE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStorePort
+                  name: pipeline-install-config
+            - name: OBJECT_STORE_REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreRegion
+                  name: pipeline-install-config
+                  optional: true
+            - name: OBJECT_STORE_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreBucket
+                  name: pipeline-install-config
+            - name: OBJECT_STORE_KEY_FORMAT
+              valueFrom:
+                configMapKeyRef:
+                  key: objectStoreKeyFormat
+                  name: pipeline-install-config
             - name: MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -52,6 +78,10 @@ spec:
                 secretKeyRef:
                   key: secretkey
                   name: mlpipeline-minio-artifact
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           envFrom:
             - configMapRef:
                 name: kubeflow-pipelines-profile-controller-env
