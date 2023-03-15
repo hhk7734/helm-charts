@@ -20,23 +20,18 @@ metadata:
   namespace: {{ include "operator.namespace" . }}
   labels:
     operator.knative.dev/release: "v1.9.4"
-    app.kubernetes.io/name: knative-operator
-    app.kubernetes.io/version: "1.9.4"
-    app.kubernetes.io/part-of: knative-operator
+    {{- include "operator.operator.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: knative-operator
+      {{- include "operator.operator.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "false"
       labels:
-        name: knative-operator
-        app.kubernetes.io/name: knative-operator
-        app.kubernetes.io/version: "1.9.4"
-        app.kubernetes.io/part-of: knative-operator
+        {{- include "operator.operator.labels" . | nindent 8 }}
         {{- with .Values.operator.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

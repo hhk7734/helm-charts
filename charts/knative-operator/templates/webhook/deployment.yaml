@@ -20,26 +20,20 @@ metadata:
   namespace: {{ include "operator.namespace" . }}
   labels:
     operator.knative.dev/release: "v1.9.4"
-    app.kubernetes.io/component: knative-operator-webhook
-    app.kubernetes.io/version: "1.9.4"
-    app.kubernetes.io/name: knative-operator
+    {{- include "operator.webhook.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: knative-operator-webhook
-      role: knative-operator-webhook
+      {{- include "operator.webhook.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
         sidecar.istio.io/inject: "false"
       labels:
-        app: knative-operator-webhook
         role: knative-operator-webhook
         operator.knative.dev/release: "v1.9.4"
-        app.kubernetes.io/component: knative-operator-webhook
-        app.kubernetes.io/version: "1.9.4"
-        app.kubernetes.io/name: knative-operator
+        {{- include "operator.webhook.labels" . | nindent 8 }}
         {{- with .Values.webhook.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

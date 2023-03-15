@@ -1,5 +1,8 @@
-crds:
-  install: true
+nameOverride: ""
+namespaceOverride: ""
+fullnameOverride: ""
+
+commonLabels: {}
 
 operator:
   image:
@@ -26,3 +29,6 @@ webhook:
     limits:
       cpu: 500m
       memory: 500Mi
+
+crds:
+  install: true
