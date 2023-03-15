@@ -1,2 +1,28 @@
 crds:
   install: true
+
+operator:
+  image:
+    repository: gcr.io/knative-releases/knative.dev/operator/cmd/operator@sha256
+    tag: 2e73ab904a74aa6c6ed1b8fe6f46d14444918bf486ab5bb0febdb2fbc77aa033
+    pullPolicy: IfNotPresent
+
+  podLabels: {}
+
+  resources: {}
+
+webhook:
+  image:
+    repository: gcr.io/knative-releases/knative.dev/operator/cmd/webhook@sha256
+    tag: 3d827626e563b24b8c001424d48bf8f07725223a07d0478148f3c021b4e9e647
+    pullPolicy: IfNotPresent
+
+  podLabels: {}
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limits:
+      cpu: 500m
+      memory: 500Mi
