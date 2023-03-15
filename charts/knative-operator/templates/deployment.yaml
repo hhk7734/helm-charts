@@ -55,9 +55,9 @@ spec:
             - name: METRICS_DOMAIN
               value: knative.dev/operator
             - name: CONFIG_LOGGING_NAME
-              value: config-logging
+              value: knative-config-logging
             - name: CONFIG_OBSERVABILITY_NAME
-              value: config-observability
+              value: knative-config-observability
           ports:
             - name: metrics
               containerPort: 9090
@@ -80,28 +80,28 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: operator-webhook
+  name: knative-operator-webhook
   namespace: {{ include "operator.namespace" . }}
   labels:
     operator.knative.dev/release: "v1.9.4"
-    app.kubernetes.io/component: operator-webhook
+    app.kubernetes.io/component: knative-operator-webhook
     app.kubernetes.io/version: "1.9.4"
     app.kubernetes.io/name: knative-operator
 spec:
   selector:
     matchLabels:
-      app: operator-webhook
-      role: operator-webhook
+      app: knative-operator-webhook
+      role: knative-operator-webhook
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
         sidecar.istio.io/inject: "false"
       labels:
-        app: operator-webhook
-        role: operator-webhook
+        app: knative-operator-webhook
+        role: knative-operator-webhook
         operator.knative.dev/release: "v1.9.4"
-        app.kubernetes.io/component: operator-webhook
+        app.kubernetes.io/component: knative-operator-webhook
         app.kubernetes.io/version: "1.9.4"
         app.kubernetes.io/name: knative-operator
     spec:
@@ -115,9 +115,9 @@ spec:
                     app: webhook
                 topologyKey: kubernetes.io/hostname
               weight: 100
-      serviceAccountName: operator-webhook
+      serviceAccountName: knative-operator-webhook
       containers:
-        - name: operator-webhook
+        - name: knative-operator-webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
           image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook@sha256:3d827626e563b24b8c001424d48bf8f07725223a07d0478148f3c021b4e9e647
@@ -138,11 +138,11 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: CONFIG_LOGGING_NAME
-              value: config-logging
+              value: knative-config-logging
             - name: CONFIG_OBSERVABILITY_NAME
-              value: config-observability
+              value: knative-config-observability
             - name: WEBHOOK_NAME
-              value: operator-webhook
+              value: knative-operator-webhook
             - name: WEBHOOK_PORT
               value: "8443"
             - name: METRICS_DOMAIN

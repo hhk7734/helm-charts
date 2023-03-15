@@ -16,7 +16,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-logging
+  name: knative-config-logging
   namespace: {{ include "operator.namespace" . }}
   labels:
     operator.knative.dev/release: "v1.9.4"
@@ -80,7 +80,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-observability
+  name: knative-config-observability
   namespace: {{ include "operator.namespace" . }}
   labels:
     operator.knative.dev/release: "v1.9.4"

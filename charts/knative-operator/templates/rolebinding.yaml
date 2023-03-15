@@ -17,14 +17,14 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   namespace: {{ include "operator.namespace" . }}
-  name: operator-webhook
+  name: knative-operator-webhook
   labels:
     eventing.knative.dev/release: devel
     app.kubernetes.io/version: "1.9.4"
     app.kubernetes.io/part-of: knative-operator
 subjects:
   - kind: ServiceAccount
-    name: operator-webhook
+    name: knative-operator-webhook
     namespace: {{ include "operator.namespace" . }}
 roleRef:
   kind: Role

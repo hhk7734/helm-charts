@@ -54,7 +54,7 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: operator-webhook
+  name: knative-operator-webhook
   labels:
     operator.knative.dev/release: "v1.9.4"
     app.kubernetes.io/version: "1.9.4"
@@ -65,7 +65,7 @@ roleRef:
   name: knative-operator-webhook
 subjects:
   - kind: ServiceAccount
-    name: operator-webhook
+    name: knative-operator-webhook
     namespace: {{ include "operator.namespace" . }}
 
 ---

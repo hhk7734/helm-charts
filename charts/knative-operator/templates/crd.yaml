@@ -2350,7 +2350,7 @@ spec:
       conversionReviewVersions: ["v1beta1"]
       clientConfig:
         service:
-          name: operator-webhook
+          name: knative-operator-webhook
           namespace: {{ include "operator.namespace" . }}
           path: /resource-conversion
 
@@ -4783,7 +4783,7 @@ spec:
       conversionReviewVersions: ["v1beta1"]
       clientConfig:
         service:
-          name: operator-webhook
+          name: knative-operator-webhook
           namespace: {{ include "operator.namespace" . }}
           path: /resource-conversion
 {{- end -}}
