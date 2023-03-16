@@ -45,7 +45,7 @@ spec:
             - podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    app: webhook
+                    {{- include "operator.webhook.matchLabels" . | nindent 20 }}
                 topologyKey: kubernetes.io/hostname
               weight: 100
       serviceAccountName: knative-operator-webhook
