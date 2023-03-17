@@ -39,7 +39,7 @@ spec:
       serviceAccountName: knative-operator
       containers:
         - name: knative-operator
-          image: "{{ .Values.operator.image.repository }}:{{ default "latest" .Values.operator.image.tag }}"
+          image: {{ include "operator.operator.image" . | quote }}
           imagePullPolicy: {{ .Values.operator.image.pullPolicy }}
           resources:
             {{- toYaml .Values.operator.resources | nindent 12 }}

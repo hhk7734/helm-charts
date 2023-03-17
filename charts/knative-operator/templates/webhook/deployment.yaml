@@ -53,7 +53,7 @@ spec:
         - name: knative-operator-webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: "{{ .Values.webhook.image.repository }}:{{ default "latest" .Values.webhook.image.tag }}"
+          image: {{ include "operator.webhook.image" . | quote }}
           imagePullPolicy: {{ .Values.webhook.image.pullPolicy }}
           resources:
             {{- toYaml .Values.webhook.resources | nindent 12 }}
