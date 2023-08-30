@@ -47,7 +47,7 @@ spec:
             - name: ENABLE_AUTHZ
               value: "true"
             - name: KUBEFLOW_USERID_HEADER
-              value: x-auth-request-email
+              value: {{ .Values.headers.userId }}
             - name: KUBEFLOW_USERID_PREFIX
               value: ""
             {{- if eq .Values.pipeline.objectStore.host "s3.amazonaws.com" }}

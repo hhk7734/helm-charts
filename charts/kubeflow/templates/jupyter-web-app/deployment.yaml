@@ -28,7 +28,7 @@ spec:
             - name: UI
               value: default
             - name: USERID_HEADER
-              value: x-auth-request-email
+              value: {{ .Values.headers.userId }}
             - name: USERID_PREFIX
               value: ""
             - name: APP_SECURE_COOKIES

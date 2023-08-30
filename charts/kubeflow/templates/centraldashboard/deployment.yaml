@@ -30,7 +30,7 @@ spec:
       containers:
         - env:
             - name: USERID_HEADER
-              value: x-auth-request-email
+              value: {{ .Values.headers.userId }}
             - name: USERID_PREFIX
               value: ""
             - name: PROFILES_KFAM_SERVICE_HOST

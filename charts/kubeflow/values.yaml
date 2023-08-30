@@ -9,8 +9,15 @@ istio:
     namespace: istio-system
     name: ingress-gateway
 
+headers:
+  userId: x-forwarded-email
+
 oauth2Proxy:
-  extraArgs: []
+  image:
+    repository: quay.io/oauth2-proxy/oauth2-proxy
+    tag: v7.4.0
+  extraArgs:
+    - --email-domain=*
   env: {}
   providers: []
 

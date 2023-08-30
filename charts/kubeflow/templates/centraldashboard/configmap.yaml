@@ -134,5 +134,5 @@ metadata:
 data:
   CD_CLUSTER_DOMAIN: cluster.local
   CD_REGISTRATION_FLOW: "false"
-  CD_USERID_HEADER: x-auth-request-email
+  CD_USERID_HEADER: {{ .Values.headers.userId }}
   CD_USERID_PREFIX: ""

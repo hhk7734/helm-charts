@@ -23,6 +23,6 @@ spec:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-viewer-crd-service-account
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-pipelines-cache
     - when:
-        - key: request.headers[x-auth-request-email]
+        - key: request.headers[{{ .Values.headers.userId }}]
           notValues:
             - "*"

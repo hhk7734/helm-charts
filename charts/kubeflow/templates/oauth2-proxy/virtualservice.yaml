@@ -8,27 +8,26 @@ metadata:
     app.kubernetes.io/name: kubeflow-oauth2-proxy
 spec:
   gateways:
-    - kubeflow-gateway
+    - {{ .Values.istio.ingressGateway.namespace }}/{{ .Values.istio.ingressGateway.name }}
   hosts:
     - {{ .Values.istio.host | quote }}
   http:
-    - name: "kubeflow-oauth2-proxy-oauth2"
-      match:
-        - uri:
-            prefix: /oauth2
-      rewrite:
-        uri: /oauth2
-      route:
-        - destination:
-            host: kubeflow-oauth2-proxy.{{ include "kubeflow.namespace" . }}.svc.cluster.local
-            port:
-              number: 4180
     - name: "kubeflow-oauth2-proxy-oauth2-signout"
       match:
         - uri:
             prefix: /logout
       rewrite:
         uri: /oauth2/sign_out
+      route:
+        - destination:
+            host: kubeflow-oauth2-proxy.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            port:
+              number: 4180
+    - match:
+        - uri:
+            prefix: /
+      rewrite:
+        uri: /
       route:
         - destination:
             host: kubeflow-oauth2-proxy.{{ include "kubeflow.namespace" . }}.svc.cluster.local

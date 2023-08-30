@@ -18,12 +18,10 @@ spec:
     spec:
       containers:
         - name: oauth2-proxy
-          image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
+          image: {{ .Values.oauth2Proxy.image.repository }}:{{ .Values.oauth2Proxy.image.tag }}
           args:
-            - --email-domain=*
-            - --http-address=0.0.0.0:4180
-            - --upstream=static://200
-            - --set-xauthrequest=true
+            - --alpha-config=/etc/kubeflow-oauth2-proxy/oauth2-proxy.yaml
+            - --silence-ping-logging
             {{- with .Values.oauth2Proxy.extraArgs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -34,8 +32,20 @@ spec:
             - name: http
               containerPort: 4180
               protocol: TCP
+            - name: metrics
+              containerPort: 44180
+              protocol: TCP
+          volumeMounts:
+            - name: kubeflow-oauth2-proxy
+              mountPath: /etc/kubeflow-oauth2-proxy
+              readOnly: true
           readinessProbe:
             periodSeconds: 10
             httpGet:
               path: /ping
               port: 4180
+      volumes:
+        - name: kubeflow-oauth2-proxy
+          configMap:
+            name: kubeflow-oauth2-proxy
+            defaultMode: 0644

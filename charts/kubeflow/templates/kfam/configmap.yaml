@@ -37,6 +37,6 @@ metadata:
     kustomize.component: profiles
 data:
   ADMIN: ""
-  USERID_HEADER: x-auth-request-email
+  USERID_HEADER: {{ .Values.headers.userId }}
   USERID_PREFIX: ""
   WORKLOAD_IDENTITY: ""
