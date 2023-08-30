@@ -1,0 +1,22 @@
+{{- if .Values.jupyterWebApp.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupyter-web-app-service
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: jupyter-web-app
+    kustomize.component: jupyter-web-app
+    run: jupyter-web-app
+spec:
+  selector:
+    app: jupyter-web-app
+    kustomize.component: jupyter-web-app
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 5000
+{{- end }}

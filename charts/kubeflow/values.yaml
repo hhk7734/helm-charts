@@ -3,44 +3,51 @@ metacontroller:
 
 istio:
   revision: ""
-  version: "1.14.5"
+  version: "1.16.1"
   host: ""
-  ingressGateway: "istio-system/ingress-gateway"
+  ingressGateway:
+    namespace: istio-system
+    name: ingress-gateway
 
 oauth2Proxy:
   extraArgs: []
   env: {}
+  providers: []
 
 pipeline:
-  appVersion: 2.0.0-alpha.3
+  appVersion: 2.0.1
   apiServer:
     image:
       repository: gcr.io/ml-pipeline/api-server
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
   persistenceAgent:
     image:
       repository: gcr.io/ml-pipeline/persistenceagent
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
   scheduledWorkflow:
     image:
       repository: gcr.io/ml-pipeline/scheduledworkflow
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
   frontend:
     image:
       repository: gcr.io/ml-pipeline/frontend
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
   viewerCrdController:
     image:
       repository: gcr.io/ml-pipeline/viewer-crd-controller
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
   visualizationServer:
     image:
       repository: gcr.io/ml-pipeline/visualization-server
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
   cacheServer:
     image:
       repository: gcr.io/ml-pipeline/cache-server
-      tag: 2.0.0-alpha.3
+      tag: 2.0.1
+  metadataWriter:
+    image:
+      repository: gcr.io/ml-pipeline/metadata-writer
+      tag: 2.0.1
 
   objectStore:
     # S3
@@ -56,6 +63,12 @@ pipeline:
     secretkey: "minio123"
     bucketName: mlpipeline
     keyFormat: "artifacts/{{workflow.name}}/{{workflow.creationTimestamp.Y}}/{{workflow.creationTimestamp.m}}/{{workflow.creationTimestamp.d}}/{{pod.name}}"
+
+notebookController:
+  enabled: true
+
+jupyterWebApp:
+  enabled: true
 
 crds:
   install: true

@@ -1,0 +1,117 @@
+{{- if .Values.notebookController.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: notebook-controller-kubeflow-notebooks-admin
+  labels:
+    app: notebook-controller
+    kustomize.component: notebook-controller
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
+rules: []
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.kubeflow.org/aggregate-to-kubeflow-notebooks-admin: "true"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: notebook-controller-kubeflow-notebooks-edit
+  labels:
+    app: notebook-controller
+    kustomize.component: notebook-controller
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-notebooks-admin: "true"
+rules:
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - notebooks
+      - notebooks/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - deletecollection
+      - patch
+      - update
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: notebook-controller-kubeflow-notebooks-view
+  labels:
+    app: notebook-controller
+    kustomize.component: notebook-controller
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
+rules:
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - notebooks
+      - notebooks/status
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: notebook-controller-role
+  labels:
+    app: notebook-controller
+    kustomize.component: notebook-controller
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - statefulsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - get
+      - list
+      - patch
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - "*"
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - notebooks
+      - notebooks/finalizers
+      - notebooks/status
+    verbs:
+      - "*"
+  - apiGroups:
+      - networking.istio.io
+    resources:
+      - virtualservices
+    verbs:
+      - "*"
+
+{{- end }}

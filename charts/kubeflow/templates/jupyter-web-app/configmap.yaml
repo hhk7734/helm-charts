@@ -1,0 +1,65 @@
+{{- if .Values.jupyterWebApp.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jupyter-web-app-config
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: jupyter-web-app
+    kustomize.component: jupyter-web-app
+data:
+  spawner_ui_config.yaml: |
+    {{- range .Files.Lines "files/jupyter-web-app/spawner_ui_config.yaml" }}
+    {{ . }}
+    {{- end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jupyter-web-app-logos
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: jupyter-web-app
+    kustomize.component: jupyter-web-app
+data:
+  group-one-icon.svg: |-
+    {{- range .Files.Lines "files/jupyter-web-app/group-one-icon.svg" }}
+    {{ . }}
+    {{- end }}
+  group-one-logo.svg: |-
+    {{- range .Files.Lines "files/jupyter-web-app/group-one-logo.svg" }}
+    {{ . }}
+    {{- end }}
+  group-two-icon.svg: |-
+    {{- range .Files.Lines "files/jupyter-web-app/group-two-icon.svg" }}
+    {{ . }}
+    {{- end }}
+  group-two-logo.svg: |-
+    {{- range .Files.Lines "files/jupyter-web-app/group-two-logo.svg" }}
+    {{ . }}
+    {{- end }}
+  jupyter-icon.svg: |-
+    {{- range .Files.Lines "files/jupyter-web-app/jupyter-icon.svg" }}
+    {{ . }}
+    {{- end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jupyter-web-app-parameters
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: jupyter-web-app
+    kustomize.component: jupyter-web-app
+data:
+  JWA_APP_SECURE_COOKIES: "true"
+  JWA_CLUSTER_DOMAIN: cluster.local
+  JWA_PREFIX: /jupyter
+  JWA_UI: default
+  JWA_USERID_HEADER: x-auth-request-email
+  JWA_USERID_PREFIX: ""
+
+{{- end }}
