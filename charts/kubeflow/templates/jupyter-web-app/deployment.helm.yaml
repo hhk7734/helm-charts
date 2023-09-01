@@ -21,22 +21,13 @@ spec:
         kustomize.component: jupyter-web-app
     spec:
       containers:
-        # TODO: configmap
-        - env:
-            - name: APP_PREFIX
-              value: /jupyter
-            - name: UI
-              value: default
-            - name: USERID_HEADER
-              value: {{ .Values.headers.userId }}
-            - name: USERID_PREFIX
-              value: ""
-            - name: APP_SECURE_COOKIES
-              value: "true"
-          image: docker.io/kubeflownotebookswg/jupyter-web-app:v1.7.0-rc.0
+        - image: docker.io/kubeflownotebookswg/jupyter-web-app:v1.7.0-rc.0
           name: jupyter-web-app
           ports:
             - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: jupyter-web-app-parameters
           volumeMounts:
             - mountPath: /etc/config
               name: config-volume
