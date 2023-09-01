@@ -1,0 +1,25 @@
+{{- if .Values.modelsWebApp.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kserve-models-web-app
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: kserve
+    app.kubernetes.io/component: kserve-models-web-app
+    app.kubernetes.io/name: kserve
+    kustomize.component: kserve-models-web-app
+spec:
+  selector:
+    app: kserve
+    app.kubernetes.io/component: kserve-models-web-app
+    app.kubernetes.io/name: kserve
+    kustomize.component: kserve-models-web-app
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 5000
+{{- end }}

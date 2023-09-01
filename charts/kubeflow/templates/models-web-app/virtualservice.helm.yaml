@@ -1,0 +1,54 @@
+{{- if .Values.modelsWebApp.enabled }}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kserve-models-web-app
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: kserve
+    app.kubernetes.io/component: kserve-models-web-app
+    app.kubernetes.io/name: kserve
+    kustomize.component: kserve-models-web-app
+spec:
+  gateways:
+    - {{ include "kubeflow.namespace" . }}/kubeflow-gateway
+  hosts:
+    - "*"
+  http:
+    - match:
+        - uri:
+            prefix: /kserve-endpoints/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: kserve-models-web-app.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            port:
+              number: 80
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: kserve-models-web-app
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: kserve
+    app.kubernetes.io/component: kserve-models-web-app
+    app.kubernetes.io/name: kserve
+    kustomize.component: kserve-models-web-app
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway
+  selector:
+    matchLabels:
+      app: kserve
+      app.kubernetes.io/component: kserve-models-web-app
+      app.kubernetes.io/name: kserve
+      kustomize.component: kserve-models-web-app
+{{- end }}
