@@ -71,10 +71,16 @@ pipeline:
     bucketName: mlpipeline
     keyFormat: "artifacts/{{workflow.name}}/{{workflow.creationTimestamp.Y}}/{{workflow.creationTimestamp.m}}/{{workflow.creationTimestamp.d}}/{{pod.name}}"
 
+volumeWebApp:
+  enabled: true
+
 notebookController:
   enabled: true
 
 jupyterWebApp:
+  enabled: true
+
+modelsWebApp:
   enabled: true
 
 crds:

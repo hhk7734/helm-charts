@@ -22,6 +22,22 @@ data:
           "icon": "book"
         },
         {{- end }}
+        {{- if .Values.volumeWebApp.enabled }}
+        {
+          "type": "item",
+          "link": "/volumes/",
+          "text": "Volumes",
+          "icon": "device:storage"
+        },
+        {{- end }}
+        {{- if .Values.modelsWebApp.enabled }}
+        {
+          "type": "item",
+          "link": "/kserve-endpoints/",
+          "text": "Endpoints",
+          "icon": "kubeflow:models"
+        },
+        {{- end}}
         {
           "type": "item",
           "text": "Experiments (KFP)",
