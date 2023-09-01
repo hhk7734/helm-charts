@@ -24,7 +24,7 @@ spec:
       serviceAccountName: {{ include "kubeflow.modelsWebApp.fullname" . }}
       containers:
         - name: models-web-app
-          image: kserve/models-web-app:v0.10.0
+          image: "{{ .Values.modelsWebApp.image.repository }}:{{ .Values.modelsWebApp.image.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 5000

@@ -88,6 +88,9 @@ jupyterWebApp:
 
 modelsWebApp:
   enabled: true
+  image:
+    repository: kserve/models-web-app
+    tag: v0.10.0
 
 crds:
   install: true
