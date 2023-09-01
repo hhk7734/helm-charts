@@ -1,0 +1,17 @@
+{{- if .Values.volumeWebApp.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: volumes-web-app-parameters
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: volumes-web-app
+    kustomize.component: volumes-web-app
+data:
+  VWA_APP_SECURE_COOKIES: "true"
+  VWA_CLUSTER_DOMAIN: cluster.local
+  VWA_PREFIX: /volumes
+  VWA_USERID_HEADER: {{ .Values.headers.userId }}
+  VWA_USERID_PREFIX: ""
+{{- end }}

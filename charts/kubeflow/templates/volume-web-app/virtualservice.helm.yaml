@@ -1,0 +1,66 @@
+{{- if .Values.volumeWebApp.enabled }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: volumes-web-app
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: volumes-web-app
+    kustomize.component: volumes-web-app
+spec:
+  host: volumes-web-app-service.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: volumes-web-app-volumes-web-app
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: volumes-web-app
+    kustomize.component: volumes-web-app
+spec:
+  gateways:
+  - kubeflow-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        add:
+          x-forwarded-prefix: /volumes
+    match:
+    - uri:
+        prefix: /volumes/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: volumes-web-app-service.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+        port:
+          number: 80
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: volumes-web-app
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    app: volumes-web-app
+    kustomize.component: volumes-web-app
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+          - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway
+  selector:
+    matchLabels:
+      app: volumes-web-app
+{{- end }}
