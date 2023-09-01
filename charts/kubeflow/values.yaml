@@ -1,3 +1,9 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+
+commonLabels: {}
+
 metacontroller:
   enabled: true
 

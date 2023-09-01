@@ -3,12 +3,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: kserve-models-web-app-cluster-role
+  name: {{ include "kubeflow.modelsWebApp.fullname" . }}
   labels:
-    app: kserve
-    app.kubernetes.io/component: kserve-models-web-app
-    app.kubernetes.io/name: kserve
-    kustomize.component: kserve-models-web-app
+    {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - authorization.k8s.io

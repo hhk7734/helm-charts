@@ -3,18 +3,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: kserve-models-web-app-binding
+  name: {{ include "kubeflow.modelsWebApp.fullname" . }}
   labels:
-    app: kserve
-    app.kubernetes.io/component: kserve-models-web-app
-    app.kubernetes.io/name: kserve
-    kustomize.component: kserve-models-web-app
+    {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: kserve-models-web-app-cluster-role
+  name: {{ include "kubeflow.modelsWebApp.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: kserve-models-web-app
+    name: {{ include "kubeflow.modelsWebApp.fullname" . }}
     namespace: {{ include "kubeflow.namespace" . }}
 {{- end }}

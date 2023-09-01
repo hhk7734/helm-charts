@@ -3,13 +3,10 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: kserve-models-web-app
+  name: {{ include "kubeflow.modelsWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: kserve
-    app.kubernetes.io/component: kserve-models-web-app
-    app.kubernetes.io/name: kserve
-    kustomize.component: kserve-models-web-app
+    {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 spec:
   gateways:
     - {{ include "kubeflow.namespace" . }}/kubeflow-gateway
@@ -23,7 +20,7 @@ spec:
         uri: /
       route:
         - destination:
-            host: kserve-models-web-app.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            host: {{ include "kubeflow.modelsWebApp.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
             port:
               number: 80
 
@@ -31,13 +28,10 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: kserve-models-web-app
+  name: {{ include "kubeflow.modelsWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: kserve
-    app.kubernetes.io/component: kserve-models-web-app
-    app.kubernetes.io/name: kserve
-    kustomize.component: kserve-models-web-app
+    {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 spec:
   action: ALLOW
   rules:
@@ -47,8 +41,5 @@ spec:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway
   selector:
     matchLabels:
-      app: kserve
-      app.kubernetes.io/component: kserve-models-web-app
-      app.kubernetes.io/name: kserve
-      kustomize.component: kserve-models-web-app
+      {{- include "kubeflow.modelsWebApp.matchLabels" . | nindent 6 }}
 {{- end }}

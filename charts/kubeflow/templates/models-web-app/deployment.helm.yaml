@@ -3,34 +3,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kserve-models-web-app
+  name: {{ include "kubeflow.modelsWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: kserve
-    app.kubernetes.io/component: kserve-models-web-app
-    app.kubernetes.io/name: kserve
-    kustomize.component: kserve-models-web-app
+    {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 spec:
+  revisionHistoryLimit: 5
   replicas: 1
   selector:
     matchLabels:
-      app: kserve
-      app.kubernetes.io/component: kserve-models-web-app
-      app.kubernetes.io/name: kserve
-      kustomize.component: kserve-models-web-app
+      {{- include "kubeflow.modelsWebApp.matchLabels" . | nindent 6 }}
   template:
     metadata:
-      annotations:
-        sidecar.istio.io/inject: "true"
       labels:
-        app: kserve
-        app.kubernetes.io/component: kserve-models-web-app
-        app.kubernetes.io/name: kserve
-        kustomize.component: kserve-models-web-app
+        {{- include "kubeflow.modelsWebApp.labels" . | nindent 8 }}
+        {{- with .Values.modelsWebApp.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-      serviceAccountName: kserve-models-web-app
+      serviceAccountName: {{ include "kubeflow.modelsWebApp.fullname" . }}
       containers:
-        - name: kserve-models-web-app
+        - name: models-web-app
           image: kserve/models-web-app:v0.10.0
           imagePullPolicy: Always
           ports:
@@ -38,7 +31,7 @@ spec:
               name: http
           envFrom:
             - configMapRef:
-                name: kserve-models-web-app-config
+                name: {{ include "kubeflow.modelsWebApp.fullname" . }}-env
           livenessProbe:
             failureThreshold: 3
             httpGet:
