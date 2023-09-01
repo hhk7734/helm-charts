@@ -22,17 +22,11 @@ spec:
     spec:
       serviceAccountName: volumes-web-app-service-account
       containers:
-        - env:
-            - name: APP_PREFIX
-              value: /volumes
-            - name: USERID_HEADER
-              value: {{ .Values.headers.userId | quote }}
-            - name: USERID_PREFIX
-              value: ""
-            - name: APP_SECURE_COOKIES
-              value: "true"
-          image: docker.io/kubeflownotebookswg/volumes-web-app:v1.7.0-rc.0
+        - image: docker.io/kubeflownotebookswg/volumes-web-app:v1.7.0-rc.0
           name: volumes-web-app
           ports:
             - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: volumes-web-app-parameters
 {{- end }}

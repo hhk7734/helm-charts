@@ -9,9 +9,9 @@ metadata:
     app: volumes-web-app
     kustomize.component: volumes-web-app
 data:
-  VWA_APP_SECURE_COOKIES: "true"
-  VWA_CLUSTER_DOMAIN: cluster.local
-  VWA_PREFIX: /volumes
-  VWA_USERID_HEADER: {{ .Values.headers.userId }}
-  VWA_USERID_PREFIX: ""
+  APP_PREFIX: /volumes
+  USERID_HEADER: {{ .Values.headers.userId | quote }}
+  USERID_PREFIX: ""
+  APP_SECURE_COOKIES: "true"
+  CLUSTER_DOMAIN: cluster.local
 {{- end }}
