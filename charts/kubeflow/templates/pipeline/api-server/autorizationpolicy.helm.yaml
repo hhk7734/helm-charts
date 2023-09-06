@@ -2,7 +2,7 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: ml-pipeline-visualizationserver
+  name: ml-pipeline
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
     app.kubernetes.io/component: ml-pipeline
@@ -11,14 +11,18 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-visualizationserver
+      app: ml-pipeline
   rules:
     - from:
         - source:
             principals:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-ui
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-persistenceagent
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-scheduledworkflow
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-viewer-crd-service-account
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-pipelines-cache
+    - when:
+        - key: request.headers[{{ .Values.headers.userId }}]
+          notValues:
+            - "*"
