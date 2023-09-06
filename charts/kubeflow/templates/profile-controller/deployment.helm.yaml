@@ -1,35 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubeflow-pipelines-profile-controller
+  name: {{ include "kubeflow.profileController.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: kubeflow-pipelines-profile-controller
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.profileController.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kubeflow-pipelines-profile-controller
-      app.kubernetes.io/component: ml-pipeline
-      app.kubernetes.io/name: kubeflow-pipelines
-      application-crd-id: kubeflow-pipelines
+      {{- include "kubeflow.profileController.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "false"
       labels:
-        app: kubeflow-pipelines-profile-controller
-        app.kubernetes.io/component: ml-pipeline
-        app.kubernetes.io/name: kubeflow-pipelines
-        application-crd-id: kubeflow-pipelines
+        {{- include "kubeflow.profileController.labels" . | nindent 8 }}
     spec:
       containers:
-        - command:
+        - image: python:3.7
+          name: profile-controller
+          command:
             - python
             - /hooks/sync.py
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 8080
           env:
             - name: KFP_VERSION
               valueFrom:
@@ -84,15 +81,11 @@ spec:
                   fieldPath: metadata.namespace
           envFrom:
             - configMapRef:
-                name: kubeflow-pipelines-profile-controller-env
-          image: python:3.7
-          name: profile-controller
-          ports:
-            - containerPort: 8080
+                name: {{ include "kubeflow.profileController.fullname" . }}-env
           volumeMounts:
-            - mountPath: /hooks
-              name: hooks
+            - name: hooks
+              mountPath: /hooks
       volumes:
-        - configMap:
-            name: kubeflow-pipelines-profile-controller-code
-          name: hooks
+        - name: hooks
+          configMap:
+            name: {{ include "kubeflow.profileController.fullname" . }}-sync-py
