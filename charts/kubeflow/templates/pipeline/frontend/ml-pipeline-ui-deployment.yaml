@@ -29,7 +29,7 @@ spec:
       serviceAccountName: ml-pipeline-ui
       containers:
         - name: ml-pipeline-ui
-          image: gcr.io/ml-pipeline/frontend:2.0.0-alpha.3
+          image: gcr.io/ml-pipeline/frontend:2.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000

@@ -25,8 +25,10 @@ spec:
         app.kubernetes.io/name: kubeflow-pipelines
         application-crd-id: kubeflow-pipelines
     spec:
+      serviceAccountName: ml-pipeline-visualizationserver
       containers:
-        - image: gcr.io/ml-pipeline/visualization-server:2.0.0-alpha.3
+        - name: ml-pipeline-visualizationserver
+          image: gcr.io/ml-pipeline/visualization-server:2.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             exec:
@@ -40,7 +42,6 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
-          name: ml-pipeline-visualizationserver
           ports:
             - containerPort: 8888
               name: http
@@ -60,4 +61,3 @@ spec:
             requests:
               cpu: 30m
               memory: 500Mi
-      serviceAccountName: ml-pipeline-visualizationserver

@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-pipeline-viewer-crd
+  name: ml-pipeline-scheduledworkflow
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: ml-pipeline-viewer-crd
+    app: ml-pipeline-scheduledworkflow
     app.kubernetes.io/component: ml-pipeline
     app.kubernetes.io/name: kubeflow-pipelines
     application-crd-id: kubeflow-pipelines
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-viewer-crd
+      app: ml-pipeline-scheduledworkflow
       app.kubernetes.io/component: ml-pipeline
       app.kubernetes.io/name: kubeflow-pipelines
       application-crd-id: kubeflow-pipelines
@@ -20,7 +20,7 @@ spec:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
-        app: ml-pipeline-viewer-crd
+        app: ml-pipeline-scheduledworkflow
         app.kubernetes.io/component: ml-pipeline
         app.kubernetes.io/name: kubeflow-pipelines
         application-crd-id: kubeflow-pipelines
@@ -29,14 +29,12 @@ spec:
         - env:
             - name: NAMESPACE
               value: ""
-              valueFrom: null
-            - name: MAX_NUM_VIEWERS
-              value: "50"
-            - name: MINIO_NAMESPACE
+            - name: CRON_SCHEDULE_TIMEZONE
               valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          image: gcr.io/ml-pipeline/viewer-crd-controller:2.0.0-alpha.3
-          imagePullPolicy: Always
-          name: ml-pipeline-viewer-crd
-      serviceAccountName: ml-pipeline-viewer-crd-service-account
+                configMapKeyRef:
+                  key: cronScheduleTimezone
+                  name: pipeline-install-config
+          image: gcr.io/ml-pipeline/scheduledworkflow:2.0.1
+          imagePullPolicy: IfNotPresent
+          name: ml-pipeline-scheduledworkflow
+      serviceAccountName: ml-pipeline-scheduledworkflow
