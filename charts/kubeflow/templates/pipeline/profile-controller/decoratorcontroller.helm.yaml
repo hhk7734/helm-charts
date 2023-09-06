@@ -1,10 +1,10 @@
 apiVersion: metacontroller.k8s.io/v1alpha1
 kind: DecoratorController
 metadata:
-  name: {{ include "kubeflow.profileController.fullname" . }}
+  name: {{ include "kubeflow.pipeline.profileController.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{- include "kubeflow.profileController.labels" . | nindent 4 }}
+    {{- include "kubeflow.pipeline.profileController.labels" . | nindent 4 }}
 spec:
   resyncPeriodSeconds: 3600
   resources:
@@ -41,4 +41,4 @@ spec:
   hooks:
     sync:
       webhook:
-        url: http://{{ include "kubeflow.profileController.fullname" . }}.{{ include "kubeflow.namespace" . }}/sync
+        url: http://{{ include "kubeflow.pipeline.profileController.fullname" . }}.{{ include "kubeflow.namespace" . }}/sync

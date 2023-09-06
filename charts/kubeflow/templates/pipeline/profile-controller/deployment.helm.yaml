@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "kubeflow.profileController.fullname" . }}
+  name: {{ include "kubeflow.pipeline.profileController.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{- include "kubeflow.profileController.labels" . | nindent 4 }}
+    {{- include "kubeflow.pipeline.profileController.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "kubeflow.profileController.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.profileController.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "false"
       labels:
-        {{- include "kubeflow.profileController.labels" . | nindent 8 }}
+        {{- include "kubeflow.pipeline.profileController.labels" . | nindent 8 }}
     spec:
       containers:
         - image: python:3.7
@@ -81,11 +81,11 @@ spec:
                   fieldPath: metadata.namespace
           envFrom:
             - configMapRef:
-                name: {{ include "kubeflow.profileController.fullname" . }}-env
+                name: {{ include "kubeflow.pipeline.profileController.fullname" . }}-env
           volumeMounts:
             - name: hooks
               mountPath: /hooks
       volumes:
         - name: hooks
           configMap:
-            name: {{ include "kubeflow.profileController.fullname" . }}-sync-py
+            name: {{ include "kubeflow.pipeline.profileController.fullname" . }}-sync-py

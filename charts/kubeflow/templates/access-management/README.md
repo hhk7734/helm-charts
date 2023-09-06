@@ -1,3 +1,4 @@
 ## Kubeflow Access Management
 
-- https://github.com/kubeflow/kubeflow/tree/master/components/access-management
+- kfam: https://github.com/kubeflow/kubeflow/tree/master/components/access-management
+- manager: https://github.com/kubeflow/kubeflow/tree/master/components/profile-controller
