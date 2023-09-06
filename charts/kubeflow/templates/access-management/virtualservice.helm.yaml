@@ -2,15 +2,15 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: profiles-kfam
+  name: {{ include "kubeflow.accessManagement.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    kustomize.component: profiles
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 spec:
   gateways:
     - kubeflow-gateway
   hosts:
-    - {{ .Values.istio.host | quote }}
+    - "*"
   http:
     - headers:
         request:
@@ -23,7 +23,7 @@ spec:
         uri: /kfam/
       route:
         - destination:
-            host: profiles-kfam.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            host: {{ include "kubeflow.accessManagement.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
             port:
               number: 8081
 
@@ -31,14 +31,14 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: profiles-kfam
+  name: {{ include "kubeflow.accessManagement.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    kustomize.component: profiles
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      kustomize.component: profiles
+      {{- include "kubeflow.accessManagement.matchLabels" . | nindent 6 }}
   action: ALLOW
   rules:
     - from:

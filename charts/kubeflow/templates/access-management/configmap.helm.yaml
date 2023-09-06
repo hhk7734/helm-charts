@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: namespace-labels-data
+  name: {{ include "kubeflow.accessManagement.fullname" . }}-namespace-labels
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    kustomize.component: profiles
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 data:
   namespace-labels.yaml: |
     # Below is a list of labels to be set by default.
@@ -21,22 +21,29 @@ data:
     # need to:
     # 1. Remove the label by using `key: ''` and deploy.
     # 2. Add the label by using `key: 'value'` and deploy.
-    #
+
+    {{- if .Values.istio.revision }}
+    istio-injection: ""
+    istio.io/rev: {{ .Values.istio.revision }}
+    {{- end }}
+
+    # profile-controller
+    pipelines.kubeflow.org/enabled: "true"
+
     katib.kubeflow.org/metrics-collector-injection: "enabled"
     serving.kubeflow.org/inferenceservice: "enabled"
-    pipelines.kubeflow.org/enabled: "true"
     app.kubernetes.io/part-of: "kubeflow-profile"
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: profiles-config
+  name: {{ include "kubeflow.accessManagement.fullname" . }}-env
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    kustomize.component: profiles
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 data:
-  ADMIN: ""
-  USERID_HEADER: {{ .Values.headers.userId }}
+  ADMIN: {{ .Values.accessManagement.clusterAdmin | quote }}
+  USERID_HEADER: {{ .Values.headers.userId | quote }}
   USERID_PREFIX: ""
   WORKLOAD_IDENTITY: ""

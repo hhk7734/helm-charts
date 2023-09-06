@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.accessManagement.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "kubeflow.accessManagement.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kubeflow.accessManagement.labels" . | nindent 8 }}
+        {{- with .Values.accessManagement.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.accessManagement.fullname" . }}
+      containers:
+        - name: kfam
+          image: "{{ .Values.accessManagement.kfam.image.repository }}:{{ .Values.accessManagement.kfam.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - /access-management
+            - -cluster-admin
+            - $(ADMIN)
+            - -userid-header
+            - $(USERID_HEADER)
+            - -userid-prefix
+            - $(USERID_PREFIX)
+          ports:
+            - name: kfam-http
+              protocol: TCP
+              containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: {{ include "kubeflow.accessManagement.fullname" . }}-env
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 30
+        - name: manager
+          image: "{{ .Values.accessManagement.manager.image.repository }}:{{ .Values.accessManagement.manager.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - /manager
+            - -userid-header
+            - $(USERID_HEADER)
+            - -userid-prefix
+            - $(USERID_PREFIX)
+            - -workload-identity
+            - $(WORKLOAD_IDENTITY)
+          ports:
+            - name: manager-http
+              protocol: TCP
+              containerPort: 9876
+          envFrom:
+            - configMapRef:
+                name: {{ include "kubeflow.accessManagement.fullname" . }}-env
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 9876
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 9876
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: namespace-labels
+              mountPath: /etc/profile-controller
+              readOnly: true
+      volumes:
+        - name: namespace-labels
+          configMap:
+            name: {{ include "kubeflow.accessManagement.fullname" . }}-namespace-labels

@@ -2,15 +2,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: profiles-leader-election-rolebinding
+  name: {{ include "kubeflow.accessManagement.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    kustomize.component: profiles
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: profiles-leader-election-role
+  name: {{ include "kubeflow.accessManagement.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: profiles-controller-service-account
+    name: {{ include "kubeflow.accessManagement.fullname" . }}
     namespace: {{ include "kubeflow.namespace" . }}

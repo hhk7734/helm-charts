@@ -13,7 +13,7 @@ data:
   CLUSTER_DOMAIN: cluster.local
   DASHBOARD_CONFIGMAP: {{ include "kubeflow.centralDashboard.fullname" . }}-config
   LOGOUT_URL: /logout
-  PROFILES_KFAM_SERVICE_HOST: profiles-kfam.{{ include "kubeflow.namespace" . }}
+  PROFILES_KFAM_SERVICE_HOST: {{ include "kubeflow.accessManagement.fullname" . }}.{{ include "kubeflow.namespace" . }}
 
 ---
 apiVersion: v1

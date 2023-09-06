@@ -2,10 +2,11 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: profiles-leader-election-role
+  # leader-election-role
+  name: {{ include "kubeflow.accessManagement.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    kustomize.component: profiles
+    {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

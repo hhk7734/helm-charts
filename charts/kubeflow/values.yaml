@@ -82,6 +82,19 @@ pipeline:
     bucketName: mlpipeline
     keyFormat: "artifacts/{{workflow.name}}/{{workflow.creationTimestamp.Y}}/{{workflow.creationTimestamp.m}}/{{workflow.creationTimestamp.d}}/{{pod.name}}"
 
+accessManagement:
+  kfam:
+    image:
+      repository: docker.io/kubeflownotebookswg/kfam
+      tag: v1.7.0-rc.0
+
+  manager:
+    image:
+      repository: docker.io/kubeflownotebookswg/profile-controller
+      tag: v1.7.0-rc.0
+
+  clusterAdmin: ""
+
 volumeWebApp:
   enabled: true
 
