@@ -12,17 +12,6 @@ spec:
   hosts:
     - {{ .Values.istio.host | quote }}
   http:
-    - name: "kubeflow-oauth2-proxy-oauth2-signout"
-      match:
-        - uri:
-            prefix: /logout
-      rewrite:
-        uri: /oauth2/sign_out
-      route:
-        - destination:
-            host: kubeflow-oauth2-proxy.{{ include "kubeflow.namespace" . }}.svc.cluster.local
-            port:
-              number: 4180
     - match:
         - uri:
             prefix: /

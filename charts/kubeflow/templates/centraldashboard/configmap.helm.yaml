@@ -12,7 +12,7 @@ data:
   REGISTRATION_FLOW: "false"
   CLUSTER_DOMAIN: cluster.local
   DASHBOARD_CONFIGMAP: {{ include "kubeflow.centralDashboard.fullname" . }}-config
-  LOGOUT_URL: /logout
+  LOGOUT_URL: /oauth2/sign_out
   PROFILES_KFAM_SERVICE_HOST: {{ include "kubeflow.accessManagement.fullname" . }}.{{ include "kubeflow.namespace" . }}
 
 ---
