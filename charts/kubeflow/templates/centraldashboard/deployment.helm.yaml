@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ include "kubeflow.centralDashboard.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        {{ include "kubeflow.centralDashboard.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.centralDashboard.fullname" . }}
+      containers:
+        - name: centraldashboard
+          image: "{{ .Values.centralDashboard.image.repository }}:{{ .Values.centralDashboard.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "kubeflow.centralDashboard.fullname" . }}-env
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 30

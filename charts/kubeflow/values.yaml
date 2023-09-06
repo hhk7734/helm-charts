@@ -27,6 +27,11 @@ oauth2Proxy:
   env: {}
   providers: []
 
+centralDashboard:
+  image:
+    repository: docker.io/kubeflownotebookswg/centraldashboard
+    tag: v1.7.0-rc.0
+
 pipeline:
   appVersion: 2.0.1
   apiServer:

@@ -1,0 +1,43 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+spec:
+  gateways:
+    - kubeflow-gateway
+  hosts:
+    - "*"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: {{ include "kubeflow.centralDashboard.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            port:
+              number: 80
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "kubeflow.centralDashboard.matchLabels" . | nindent 6 }}
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway

@@ -2,13 +2,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: centraldashboard
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: centraldashboard
-    app.kubernetes.io/component: centraldashboard
-    app.kubernetes.io/name: centraldashboard
-    kustomize.component: centraldashboard
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

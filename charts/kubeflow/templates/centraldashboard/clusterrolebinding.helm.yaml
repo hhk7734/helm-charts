@@ -1,0 +1,15 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}
+  labels:
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "kubeflow.centralDashboard.fullname" . }}
+    namespace: {{ include "kubeflow.namespace" . }}

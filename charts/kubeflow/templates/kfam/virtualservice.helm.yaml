@@ -26,3 +26,22 @@ spec:
             host: profiles-kfam.{{ include "kubeflow.namespace" . }}.svc.cluster.local
             port:
               number: 8081
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: profiles-kfam
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    kustomize.component: profiles
+spec:
+  selector:
+    matchLabels:
+      kustomize.component: profiles
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.centralDashboard.fullname" . }}

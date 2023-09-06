@@ -2,13 +2,27 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centraldashboard-config
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}-env
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: centraldashboard
-    app.kubernetes.io/component: centraldashboard
-    app.kubernetes.io/name: centraldashboard
-    kustomize.component: centraldashboard
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+data:
+  USERID_HEADER: {{ .Values.headers.userId | quote }}
+  USERID_PREFIX: ""
+  REGISTRATION_FLOW: "false"
+  CLUSTER_DOMAIN: cluster.local
+  DASHBOARD_CONFIGMAP: {{ include "kubeflow.centralDashboard.fullname" . }}-config
+  LOGOUT_URL: /logout
+  PROFILES_KFAM_SERVICE_HOST: profiles-kfam.{{ include "kubeflow.namespace" . }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kubeflow.centralDashboard.fullname" . }}-config
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
 data:
   # https://kevingleason.me/Polymer-Todo/bower_components/iron-icons/demo/index.html
   links: |-
@@ -76,79 +90,10 @@ data:
         }
       ],
       "externalLinks": [],
-      "quickLinks": [
-        {
-          "text": "Upload a pipeline",
-          "desc": "Pipelines",
-          "link": "/pipeline/"
-        },
-        {
-          "text": "View all pipeline runs",
-          "desc": "Pipelines",
-          "link": "/pipeline/#/runs"
-        },
-        {
-          "text": "Create a new Notebook server",
-          "desc": "Notebook Servers",
-          "link": "/jupyter/new?namespace=kubeflow"
-        },
-        {
-          "text": "View Katib Experiments",
-          "desc": "Katib",
-          "link": "/katib/"
-        }
-      ],
-      "documentationItems": [
-        {
-          "text": "Getting Started with Kubeflow",
-          "desc": "Get your machine-learning workflow up and running on Kubeflow",
-          "link": "https://www.kubeflow.org/docs/started/getting-started/"
-        },
-        {
-          "text": "MiniKF",
-          "desc": "A fast and easy way to deploy Kubeflow locally",
-          "link": "https://www.kubeflow.org/docs/distributions/minikf/"
-        },
-        {
-          "text": "Microk8s for Kubeflow",
-          "desc": "Quickly get Kubeflow running locally on native hypervisors",
-          "link": "https://www.kubeflow.org/docs/distributions/microk8s/kubeflow-on-microk8s/"
-        },
-        {
-          "text": "Kubeflow on GCP",
-          "desc": "Running Kubeflow on Kubernetes Engine and Google Cloud Platform",
-          "link": "https://www.kubeflow.org/docs/gke/"
-        },
-        {
-          "text": "Kubeflow on AWS",
-          "desc": "Running Kubeflow on Elastic Container Service and Amazon Web Services",
-          "link": "https://www.kubeflow.org/docs/aws/"
-        },
-        {
-          "text": "Requirements for Kubeflow",
-          "desc": "Get more detailed information about using Kubeflow and its components",
-          "link": "https://www.kubeflow.org/docs/started/requirements/"
-        }
-      ]
+      "quickLinks": [],
+      "documentationItems": []
     }
   settings: |-
     {
       "DASHBOARD_FORCE_IFRAME": true
     }
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: centraldashboard-parameters
-  namespace: {{ include "kubeflow.namespace" . }}
-  labels:
-    app: centraldashboard
-    app.kubernetes.io/component: centraldashboard
-    app.kubernetes.io/name: centraldashboard
-    kustomize.component: centraldashboard
-data:
-  CD_CLUSTER_DOMAIN: cluster.local
-  CD_REGISTRATION_FLOW: "false"
-  CD_USERID_HEADER: {{ .Values.headers.userId }}
-  CD_USERID_PREFIX: ""
