@@ -30,9 +30,11 @@ data:
     # profile-controller
     pipelines.kubeflow.org/enabled: "true"
 
+    # admission-webhook
+    app.kubernetes.io/part-of: "kubeflow-profile"
+
     katib.kubeflow.org/metrics-collector-injection: "enabled"
     serving.kubeflow.org/inferenceservice: "enabled"
-    app.kubernetes.io/part-of: "kubeflow-profile"
 
 ---
 apiVersion: v1

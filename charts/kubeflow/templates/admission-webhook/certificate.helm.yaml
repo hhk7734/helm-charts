@@ -1,0 +1,29 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+spec:
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: {{ include "kubeflow.admissionWebhook.fullname" . }}
+  commonName: {{ include "kubeflow.admissionWebhook.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc
+  dnsNames:
+    - {{ include "kubeflow.admissionWebhook.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc
+    - {{ include "kubeflow.admissionWebhook.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+  secretName: {{ include "kubeflow.admissionWebhook.fullname" . }}-certs

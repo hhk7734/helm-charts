@@ -95,6 +95,11 @@ accessManagement:
 
   clusterAdmin: ""
 
+admissionWebhook:
+  image:
+    repository: docker.io/kubeflownotebookswg/poddefaults-webhook
+    tag: v1.7.0-rc.0
+
 volumeWebApp:
   enabled: true
 

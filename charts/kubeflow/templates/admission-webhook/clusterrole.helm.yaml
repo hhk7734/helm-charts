@@ -1,0 +1,68 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - poddefaults
+    verbs:
+      - get
+      - watch
+      - list
+      - update
+      - create
+      - patch
+      - delete
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}-poddefaults-admin
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.kubeflow.org/aggregate-to-kubeflow-poddefaults-admin: "true"
+rules: []
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}-poddefaults-edit
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.kubeflow.org/aggregate-to-kubeflow-poddefaults-edit: "true"
+rules: []
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}-poddefaults-view
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-poddefaults-admin: "true"
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-poddefaults-edit: "true"
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
+rules:
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - poddefaults
+    verbs:
+      - get
+      - list
+      - watch

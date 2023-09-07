@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.admissionWebhook.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "kubeflow.admissionWebhook.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        {{ include "kubeflow.admissionWebhook.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.admissionWebhook.fullname" . }}
+      containers:
+        - name: admission-webhook
+          image: "{{ .Values.admissionWebhook.image.repository }}:{{ .Values.admissionWebhook.image.tag }}"
+          args:
+            - --tlsCertFile=/etc/webhook/certs/tls.crt
+            - --tlsKeyFile=/etc/webhook/certs/tls.key
+          ports:
+            - name: https-webhook
+              protocol: TCP
+              containerPort: 4443
+          volumeMounts:
+            - name: webhook-cert
+              mountPath: /etc/webhook/certs
+              readOnly: true
+      volumes:
+        - name: webhook-cert
+          secret:
+            secretName: {{ include "kubeflow.admissionWebhook.fullname" . }}-certs
