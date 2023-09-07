@@ -135,11 +135,11 @@ jupyterWebApp:
         value: kubeflownotebookswg/jupyter-scipy:v1.7.0-rc.0
         # The list of available standard container Images
         options:
-        - kubeflownotebookswg/jupyter-scipy:v1.7.0-rc.0
-        - kubeflownotebookswg/jupyter-pytorch-full:v1.7.0-rc.0
-        - kubeflownotebookswg/jupyter-pytorch-cuda-full:v1.7.0-rc.0
-        - kubeflownotebookswg/jupyter-tensorflow-full:v1.7.0-rc.0
-        - kubeflownotebookswg/jupyter-tensorflow-cuda-full:v1.7.0-rc.0
+          - kubeflownotebookswg/jupyter-scipy:v1.7.0-rc.0
+          - kubeflownotebookswg/jupyter-pytorch-full:v1.7.0-rc.0
+          - kubeflownotebookswg/jupyter-pytorch-cuda-full:v1.7.0-rc.0
+          - kubeflownotebookswg/jupyter-tensorflow-full:v1.7.0-rc.0
+          - kubeflownotebookswg/jupyter-tensorflow-cuda-full:v1.7.0-rc.0
       imageGroupOne:
         # The container Image for the user's Group One Server
         # The annotation `notebooks.kubeflow.org/http-rewrite-uri: /`
@@ -148,7 +148,7 @@ jupyterWebApp:
         value: kubeflownotebookswg/codeserver-python:v1.7.0-rc.0
         # The list of available standard container Images
         options:
-        - kubeflownotebookswg/codeserver-python:v1.7.0-rc.0
+          - kubeflownotebookswg/codeserver-python:v1.7.0-rc.0
       imageGroupTwo:
         # The container Image for the user's Group Two Server
         # The annotation `notebooks.kubeflow.org/http-rewrite-uri: /`
@@ -160,7 +160,7 @@ jupyterWebApp:
         value: kubeflownotebookswg/rstudio-tidyverse:v1.7.0-rc.0
         # The list of available standard container Images
         options:
-        - kubeflownotebookswg/rstudio-tidyverse:v1.7.0-rc.0
+          - kubeflownotebookswg/rstudio-tidyverse:v1.7.0-rc.0
       # If true, hide registry and/or tag name in the image selection dropdown
       hideRegistry: true
       hideTag: false
@@ -173,17 +173,17 @@ jupyterWebApp:
         readOnly: false
       cpu:
         # CPU for user's Notebook
-        value: '0.5'
+        value: "0.5"
         # Factor by with to multiply request to calculate limit
         # if no limit is set, to disable set "none"
-        limitFactor: "1.2"
+        limitFactor: "none"
         readOnly: false
       memory:
         # Memory for user's Notebook
         value: 1.0Gi
         # Factor by with to multiply request to calculate limit
         # if no limit is set, to disable set "none"
-        limitFactor: "1.2"
+        limitFactor: "none"
         readOnly: false
       environment:
         value: {}
@@ -195,13 +195,13 @@ jupyterWebApp:
           mount: /home/jovyan
           newPvc:
             metadata:
-              name: '{notebook-name}-workspace'
+              name: "{notebook-name}-workspace"
             spec:
               resources:
                 requests:
                   storage: 10Gi
               accessModes:
-              - ReadWriteOnce
+                - ReadWriteOnce
         readOnly: false
       dataVolumes:
         # List of additional Data Volumes to be attached to the user's Notebook
@@ -230,12 +230,12 @@ jupyterWebApp:
           num: "none"
           # Determines what the UI will show and send to the backend
           vendors:
-          - limitsKey: "nvidia.com/gpu"
-            uiName: "NVIDIA"
-          - limitsKey: "amd.com/gpu"
-            uiName: "AMD"
+            - limitsKey: "nvidia.com/gpu"
+              uiName: "NVIDIA"
+            - limitsKey: "amd.com/gpu"
+              uiName: "AMD"
           # Values: "" or a `limits-key` from the vendors list
-          vendor: ""
+          vendor: "nvidia.com/gpu"
         readOnly: false
       affinityConfig:
         # If readonly, the default value will be the only option
@@ -263,7 +263,7 @@ jupyterWebApp:
         #              matchExpressions:
         #                - key: "notebook-name"
         #                  operator: "Exists"
-        #            namespaces: []
+        #            namespaceSelector: {}
         #            topologyKey: "kubernetes.io/hostname"
         #readOnly: false
       tolerationGroup:
