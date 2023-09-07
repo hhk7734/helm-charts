@@ -3,13 +3,12 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: jupyter-web-app
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
-  host: jupyter-web-app-service.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+  host: {{ include "kubeflow.jupyterWebApp.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -18,11 +17,10 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: jupyter-web-app-jupyter-web-app
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   gateways:
     - kubeflow-gateway
@@ -40,7 +38,7 @@ spec:
         uri: /
       route:
         - destination:
-            host: jupyter-web-app-service.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+            host: {{ include "kubeflow.jupyterWebApp.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
             port:
               number: 80
 
@@ -48,16 +46,15 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: jupyter-web-app
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
-  action: ALLOW
   selector:
     matchLabels:
-      app: jupyter-web-app
+      {{ include "kubeflow.jupyterWebApp.matchLabels" . | nindent 6 }}
+  action: ALLOW
   rules:
     - from:
         - source:

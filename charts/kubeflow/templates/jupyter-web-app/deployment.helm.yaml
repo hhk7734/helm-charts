@@ -3,42 +3,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jupyter-web-app-deployment
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jupyter-web-app
-      kustomize.component: jupyter-web-app
+      {{ include "kubeflow.jupyterWebApp.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: jupyter-web-app
-        kustomize.component: jupyter-web-app
+        {{ include "kubeflow.jupyterWebApp.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "kubeflow.jupyterWebApp.fullname" . }}
       containers:
-        - image: docker.io/kubeflownotebookswg/jupyter-web-app:v1.7.0-rc.0
-          name: jupyter-web-app
+        - name: jupyter-web-app
+          image:  "{{ .Values.jupyterWebApp.image.repository }}:{{ .Values.jupyterWebApp.image.tag }}"
           ports:
-            - containerPort: 5000
+            - name: http
+              protocol: TCP
+              containerPort: 5000
           envFrom:
             - configMapRef:
-                name: jupyter-web-app-parameters
+                name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-env
           volumeMounts:
-            - mountPath: /etc/config
-              name: config-volume
-            - mountPath: /src/apps/default/static/assets/logos
-              name: logos-volume
-      serviceAccountName: jupyter-web-app-service-account
+            - name: config-volume
+              mountPath: /etc/config
+            - name: logos-volume
+              mountPath: /src/apps/default/static/assets/logos
       volumes:
-        - configMap:
-            name: jupyter-web-app-config
-          name: config-volume
-        - configMap:
-            name: jupyter-web-app-logos
-          name: logos-volume
+        - name: config-volume
+          configMap:
+            name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-config
+        - name: logos-volume
+          configMap:
+            name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-logos
+
 {{- end }}

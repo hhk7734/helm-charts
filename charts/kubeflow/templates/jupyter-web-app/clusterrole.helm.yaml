@@ -3,10 +3,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: jupyter-web-app-cluster-role
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - authorization.k8s.io
@@ -64,10 +63,9 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: jupyter-web-app-kubeflow-notebook-ui-admin
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-notebook-ui-admin
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
 rules: []
 
@@ -75,10 +73,9 @@ rules: []
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: jupyter-web-app-kubeflow-notebook-ui-edit
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-notebook-ui-edit
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
 rules:
   - apiGroups:
@@ -97,10 +94,9 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: jupyter-web-app-kubeflow-notebook-ui-view
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-notebook-ui-view
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
 rules:
   - apiGroups:

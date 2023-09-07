@@ -3,57 +3,36 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jupyter-web-app-config
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-config
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 data:
   spawner_ui_config.yaml: |
-    {{- range .Files.Lines "files/jupyter-web-app/spawner_ui_config.yaml" }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.jupyterWebApp.spawnerUIConfig | toYaml | nindent 4 }}
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jupyter-web-app-logos
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-logos
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 data:
-  group-one-icon.svg: |-
-    {{- range .Files.Lines "files/jupyter-web-app/group-one-icon.svg" }}
-    {{ . }}
-    {{- end }}
-  group-one-logo.svg: |-
-    {{- range .Files.Lines "files/jupyter-web-app/group-one-logo.svg" }}
-    {{ . }}
-    {{- end }}
-  group-two-icon.svg: |-
-    {{- range .Files.Lines "files/jupyter-web-app/group-two-icon.svg" }}
-    {{ . }}
-    {{- end }}
-  group-two-logo.svg: |-
-    {{- range .Files.Lines "files/jupyter-web-app/group-two-logo.svg" }}
-    {{ . }}
-    {{- end }}
-  jupyter-icon.svg: |-
-    {{- range .Files.Lines "files/jupyter-web-app/jupyter-icon.svg" }}
-    {{ . }}
-    {{- end }}
+  {{- range $path, $_ := .Files.Glob "files/jupyter-web-app/*" }}
+  {{ base $path }}: |-
+    {{- $.Files.Get $path | nindent 4 }}
+  {{- end }}
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jupyter-web-app-parameters
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-env
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 data:
   APP_PREFIX: /jupyter
   UI: default

@@ -3,11 +3,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: jupyter-web-app-jupyter-notebook-role
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - authorization.k8s.io

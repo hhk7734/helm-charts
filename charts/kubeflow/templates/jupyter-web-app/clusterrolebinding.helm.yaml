@@ -3,16 +3,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: jupyter-web-app-cluster-role-binding
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   labels:
-    app: jupyter-web-app
-    kustomize.component: jupyter-web-app
+    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: jupyter-web-app-cluster-role
+  name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: jupyter-web-app-service-account
+    name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
     namespace: {{ include "kubeflow.namespace" . }}
 {{- end }}
