@@ -1,13 +1,12 @@
-{{- if .Values.volumeWebApp.enabled }}
+{{- if .Values.volumesWebApp.enabled }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: volumes-web-app-parameters
+  name: {{ include "kubeflow.volumesWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: volumes-web-app
-    kustomize.component: volumes-web-app
+    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
 data:
   APP_PREFIX: /volumes
   USERID_HEADER: {{ .Values.headers.userId | quote }}

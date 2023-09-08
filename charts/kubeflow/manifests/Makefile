@@ -6,6 +6,7 @@ ALL_DEPS += $(HASH)/access-management.yaml
 ALL_DEPS += $(HASH)/admission-webhook.yaml
 ALL_DEPS += $(HASH)/notebook-controller.yaml
 ALL_DEPS += $(HASH)/jupyter-web-app.yaml
+ALL_DEPS += $(HASH)/volumes-web-app.yaml
 ALL_DEPS += $(HASH)/models-web-app.yaml
 
 .PHONY: all
@@ -30,6 +31,9 @@ $(HASH)/notebook-controller.yaml: $(HASH)
 
 $(HASH)/jupyter-web-app.yaml: $(HASH)
 	kubectl kustomize manifests/apps/jupyter/jupyter-web-app/upstream/overlays/istio > $(HASH)/jupyter-web-app.yaml
+
+$(HASH)/volumes-web-app.yaml: $(HASH)
+	kubectl kustomize manifests/apps/volumes-web-app/upstream/overlays/istio > $(HASH)/volumes-web-app.yaml
 
 $(HASH)/models-web-app.yaml: $(HASH)
 	kubectl kustomize manifests/contrib/kserve/models-web-app/overlays/kubeflow > $(HASH)/models-web-app.yaml

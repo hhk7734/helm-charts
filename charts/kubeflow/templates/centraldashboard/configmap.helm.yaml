@@ -36,7 +36,7 @@ data:
           "icon": "book"
         },
         {{- end }}
-        {{- if .Values.volumeWebApp.enabled }}
+        {{- if .Values.volumesWebApp.enabled }}
         {
           "type": "item",
           "link": "/volumes/",

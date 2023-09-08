@@ -1,0 +1,31 @@
+{{- if .Values.volumesWebApp.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.volumesWebApp.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ include "kubeflow.volumesWebApp.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "kubeflow.volumesWebApp.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.volumesWebApp.fullname" . }}
+      containers:
+        - name: volumes-web-app
+          image: "{{ .Values.volumesWebApp.image.repository }}:{{ .Values.volumesWebApp.image.tag }}"
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: {{ include "kubeflow.volumesWebApp.fullname" . }}
+{{- end }}

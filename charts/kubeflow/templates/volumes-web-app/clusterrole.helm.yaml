@@ -1,12 +1,11 @@
-{{- if .Values.volumeWebApp.enabled }}
+{{- if .Values.volumesWebApp.enabled }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: volumes-web-app-cluster-role
+  name: {{ include "kubeflow.volumesWebApp.fullname" . }}
   labels:
-    app: volumes-web-app
-    kustomize.component: volumes-web-app
+    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -59,10 +58,9 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: volumes-web-app-kubeflow-volume-ui-admin
+  name: {{ include "kubeflow.volumesWebApp.fullname" . }}-volume-ui-admin
   labels:
-    app: volumes-web-app
-    kustomize.component: volumes-web-app
+    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
 rules: []
 
@@ -70,10 +68,9 @@ rules: []
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: volumes-web-app-kubeflow-volume-ui-edit
+  name: {{ include "kubeflow.volumesWebApp.fullname" . }}-volume-ui-edit
   labels:
-    app: volumes-web-app
-    kustomize.component: volumes-web-app
+    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
 rules:
   - apiGroups:
@@ -93,10 +90,9 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: volumes-web-app-kubeflow-volume-ui-view
+  name: {{ include "kubeflow.volumesWebApp.fullname" . }}-volume-ui-view
   labels:
-    app: volumes-web-app
-    kustomize.component: volumes-web-app
+    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
 rules:
   - apiGroups:
@@ -115,5 +111,4 @@ rules:
       - get
       - list
       - watch
-
 {{- end }}
