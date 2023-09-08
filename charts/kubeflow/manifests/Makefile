@@ -1,7 +1,8 @@
 HASH=abc72bea09259eeea96646d0414a14539e18d02a
 OLD_HASH=
 
-ALL_DEPS = $(HASH)/centraldashboard.yaml
+ALL_DEPS = $(HASH)/pipeline.yaml
+ALL_DEPS += $(HASH)/centraldashboard.yaml
 ALL_DEPS += $(HASH)/access-management.yaml
 ALL_DEPS += $(HASH)/admission-webhook.yaml
 ALL_DEPS += $(HASH)/notebook-controller.yaml
@@ -16,6 +17,9 @@ all: $(ALL_DEPS)
 clean:
 	rm -rf $(HASH)
 	rm -rf manifests
+
+$(HASH)/pipeline.yaml: $(HASH)
+	kubectl kustomize manifests/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user > $(HASH)/pipeline.yaml
 
 $(HASH)/centraldashboard.yaml: $(HASH)
 	kubectl kustomize manifests/apps/centraldashboard/upstream/overlays/kserve > $(HASH)/centraldashboard.yaml

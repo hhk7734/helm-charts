@@ -17,11 +17,13 @@ data:
     namespace: `kubectl rollout restart deployment -n <your-namespace>`.
   appName: pipeline
   appVersion: 2.0.1
-  dbHost: mysql
-  dbPort: "3306"
+
+  dbHost: {{ include "kubeflow.pipeline.mysql.host" . | quote }}
+  dbPort: {{ include "kubeflow.pipeline.mysql.port" . | quote }}
   mlmdDb: metadb
   cacheDb: cachedb
   pipelineDb: mlpipeline
+
   objectStoreSecure: {{ .Values.pipeline.objectStore.secure | quote }}
   {{- if .Values.pipeline.objectStore.host }}
   objectStoreHost: {{ .Values.pipeline.objectStore.host }}

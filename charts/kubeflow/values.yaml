@@ -21,9 +21,10 @@ headers:
 oauth2Proxy:
   image:
     repository: quay.io/oauth2-proxy/oauth2-proxy
-    tag: v7.4.0
+    tag: v7.5.0
   extraArgs:
     - --email-domain=*
+  # ENV_KEY: ENV_VALUE
   env: {}
   providers: []
 
@@ -86,6 +87,17 @@ pipeline:
     image:
       repository: gcr.io/ml-pipeline/metadata-writer
       tag: 2.0.1
+
+  mysql:
+    # If you want to use an existing mysql, set this to false and fill in
+    # the connection info below.
+    enabled: true
+
+    # If pipeline.mysql.enabled is true, the following values are ignored.
+    host: ""
+    port: "3306"
+    user: ""
+    password: ""
 
   objectStore:
     # S3

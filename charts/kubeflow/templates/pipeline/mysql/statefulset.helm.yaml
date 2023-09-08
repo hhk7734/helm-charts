@@ -1,0 +1,50 @@
+{{- if .Values.pipeline.mysql.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.mysql.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  serviceName: {{ include "kubeflow.pipeline.mysql.fullname" . }}-hl
+  selector:
+    matchLabels:
+      {{ include "kubeflow.pipeline.mysql.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kubeflow.pipeline.mysql.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+      containers:
+        - name: mysql
+          image: gcr.io/ml-pipeline/mysql:5.7-debian
+          args:
+            - --ignore-db-dir=lost+found
+            - --datadir
+            - /var/lib/mysql
+          ports:
+            - name: mysql
+              protocol: TCP
+              containerPort: 3306
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 800Mi
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi
+{{- end }}

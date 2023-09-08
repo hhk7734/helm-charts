@@ -1,0 +1,18 @@
+{{- if .Values.pipeline.mysql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.mysql.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{ include "kubeflow.pipeline.mysql.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: mysql
+{{- end }}

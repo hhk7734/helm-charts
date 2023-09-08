@@ -1,15 +1,16 @@
+{{- if .Values.pipeline.mysql.enabled }}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: mysql
+  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.mysql.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: mysql
+      {{ include "kubeflow.pipeline.mysql.matchLabels" . | nindent 6 }}
   rules:
     - from:
         - source:
@@ -21,3 +22,18 @@ spec:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-viewer-crd-service-account
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-pipelines-cache
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/metadata-grpc-server
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.mysql.labels" . | nindent 4 }}
+spec:
+  host: {{ include "kubeflow.pipeline.mysql.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+{{- end }}
