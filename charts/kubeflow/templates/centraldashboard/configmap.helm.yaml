@@ -88,10 +88,15 @@ data:
           "text": "Executions",
           "icon": "av:play-arrow"
         }
+        {{- with .Values.centralDashboard.links.menuLinks }}
+        {{- range . }}
+        ,{{ toJson . }}
+        {{- end }}
+        {{- end }}
       ],
-      "externalLinks": [],
-      "quickLinks": [],
-      "documentationItems": []
+      "externalLinks": {{ .Values.centralDashboard.links.externalLinks | toJson }},
+      "quickLinks": {{ .Values.centralDashboard.links.quickLinks | toJson }},
+      "documentationItems": {{ .Values.centralDashboard.links.documentationItems | toJson }}
     }
   settings: |-
     {

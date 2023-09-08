@@ -32,6 +32,26 @@ centralDashboard:
     repository: docker.io/kubeflownotebookswg/centraldashboard
     tag: v1.7.0-rc.0
 
+  links:
+    # https://kevingleason.me/Polymer-Todo/bower_components/iron-icons/demo/index.html
+    menuLinks:
+      []
+      # - type: "item"
+      #   link: "/path"
+      #   text: "text"
+      #   icon: "icons:help"
+    externalLinks: []
+    quickLinks:
+      []
+      # - text: "title"
+      #   desc: "description"
+      #   link: "https://www.example.com"
+    documentationItems:
+      []
+      # - text: "title"
+      #   desc: "description"
+      #   link: "https://www.example.com"
+
 pipeline:
   appVersion: 2.0.1
   apiServer:
