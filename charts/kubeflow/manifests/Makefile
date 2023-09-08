@@ -4,6 +4,7 @@ OLD_HASH=
 ALL_DEPS = $(HASH)/centraldashboard.yaml
 ALL_DEPS += $(HASH)/access-management.yaml
 ALL_DEPS += $(HASH)/admission-webhook.yaml
+ALL_DEPS += $(HASH)/notebook-controller.yaml
 ALL_DEPS += $(HASH)/jupyter-web-app.yaml
 ALL_DEPS += $(HASH)/models-web-app.yaml
 
@@ -23,6 +24,9 @@ $(HASH)/access-management.yaml: $(HASH)
 
 $(HASH)/admission-webhook.yaml: $(HASH)
 	kubectl kustomize manifests/apps/admission-webhook/upstream/overlays/cert-manager > $(HASH)/admission-webhook.yaml
+
+$(HASH)/notebook-controller.yaml: $(HASH)
+	kubectl kustomize manifests/apps/jupyter/notebook-controller/upstream/overlays/kubeflow > $(HASH)/notebook-controller.yaml
 
 $(HASH)/jupyter-web-app.yaml: $(HASH)
 	kubectl kustomize manifests/apps/jupyter/jupyter-web-app/upstream/overlays/istio > $(HASH)/jupyter-web-app.yaml

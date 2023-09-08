@@ -3,11 +3,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: notebook-controller-config
+  name: {{ include "kubeflow.notebookController.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: notebook-controller
-    kustomize.component: notebook-controller
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
 data:
   CLUSTER_DOMAIN: cluster.local
   CULL_IDLE_TIME: "1440"

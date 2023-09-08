@@ -3,25 +3,23 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: notebook-controller-kubeflow-notebooks-admin
+  name: {{ include "kubeflow.notebookController.fullname" . }}-notebooks-admin
   labels:
-    app: notebook-controller
-    kustomize.component: notebook-controller
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
-rules: []
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
         rbac.authorization.kubeflow.org/aggregate-to-kubeflow-notebooks-admin: "true"
+rules: []
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: notebook-controller-kubeflow-notebooks-edit
+  name: {{ include "kubeflow.notebookController.fullname" . }}-notebooks-edit
   labels:
-    app: notebook-controller
-    kustomize.component: notebook-controller
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-notebooks-admin: "true"
 rules:
@@ -44,10 +42,9 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: notebook-controller-kubeflow-notebooks-view
+  name: {{ include "kubeflow.notebookController.fullname" . }}-notebooks-view
   labels:
-    app: notebook-controller
-    kustomize.component: notebook-controller
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
 rules:
   - apiGroups:
@@ -64,10 +61,9 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: notebook-controller-role
+  name: {{ include "kubeflow.notebookController.fullname" . }}
   labels:
-    app: notebook-controller
-    kustomize.component: notebook-controller
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - apps
@@ -113,5 +109,4 @@ rules:
       - virtualservices
     verbs:
       - "*"
-
 {{- end }}

@@ -1,0 +1,19 @@
+{{- if .Values.notebookController.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeflow.notebookController.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{ include "kubeflow.notebookController.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+{{- end }}

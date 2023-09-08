@@ -1,5 +1,4 @@
-- abc72bea09259eeea96646d0414a14539e18d02a
+## notebook-controller
 
-```shell
-kustomize build apps/jupyter/notebook-controller/upstream/overlays/kubeflow
-```
+- kubeflow/manifests@abc72bea09259eeea96646d0414a14539e18d02a
+- https://github.com/kubeflow/kubeflow/tree/master/components/notebook-controller

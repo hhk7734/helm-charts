@@ -3,16 +3,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: notebook-controller-role-binding
+  name: {{ include "kubeflow.notebookController.fullname" . }}
   labels:
-    app: notebook-controller
-    kustomize.component: notebook-controller
+    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: notebook-controller-role
+  name: {{ include "kubeflow.notebookController.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: notebook-controller-service-account
+    name: {{ include "kubeflow.notebookController.fullname" . }}
     namespace: {{ include "kubeflow.namespace" . }}
 {{- end }}
