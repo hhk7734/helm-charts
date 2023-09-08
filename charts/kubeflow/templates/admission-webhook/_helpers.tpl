@@ -7,7 +7,7 @@ app.kubernetes.io/name: {{ include "kubeflow.admissionWebhook.fullname" . }}
 app: {{ include "kubeflow.admissionWebhook.fullname" . }}
 {{- end }}
 
-{{- define "kubeflow.admissionWebhook.labels" }}
+{{- define "kubeflow.admissionWebhook.labels" -}}
 {{- include "kubeflow.labels" . }}
 {{ include "kubeflow.admissionWebhook.matchLabels" . }}
 {{- end }}

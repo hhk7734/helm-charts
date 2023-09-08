@@ -5,7 +5,7 @@ metadata:
   name: {{ include "kubeflow.centralDashboard.fullname" . }}-env
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+    {{- include "kubeflow.centralDashboard.labels" . | nindent 4 }}
 data:
   USERID_HEADER: {{ .Values.headers.userId | quote }}
   USERID_PREFIX: ""
@@ -22,7 +22,7 @@ metadata:
   name: {{ include "kubeflow.centralDashboard.fullname" . }}-config
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+    {{- include "kubeflow.centralDashboard.labels" . | nindent 4 }}
 data:
   # https://kevingleason.me/Polymer-Todo/bower_components/iron-icons/demo/index.html
   links: |-

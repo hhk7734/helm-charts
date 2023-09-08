@@ -4,7 +4,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.admissionWebhook.fullname" . }}
   labels:
-    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - kubeflow.org
@@ -25,7 +25,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.admissionWebhook.fullname" . }}-poddefaults-admin
   labels:
-    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
 aggregationRule:
   clusterRoleSelectors:
@@ -39,7 +39,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.admissionWebhook.fullname" . }}-poddefaults-edit
   labels:
-    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
 aggregationRule:
   clusterRoleSelectors:
@@ -53,7 +53,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.admissionWebhook.fullname" . }}-poddefaults-view
   labels:
-    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-poddefaults-admin: "true"
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-poddefaults-edit: "true"
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"

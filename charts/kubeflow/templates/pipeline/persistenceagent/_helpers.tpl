@@ -7,7 +7,7 @@ app.kubernetes.io/name: {{ include "kubeflow.pipeline.persistenceAgent.fullname"
 app: {{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
 {{- end }}
 
-{{- define "kubeflow.pipeline.persistenceAgent.labels" }}
+{{- define "kubeflow.pipeline.persistenceAgent.labels" -}}
 {{- include "kubeflow.labels" . }}
 {{ include "kubeflow.pipeline.persistenceAgent.matchLabels" . }}
 {{- end }}

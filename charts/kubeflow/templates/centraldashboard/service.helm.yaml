@@ -5,7 +5,7 @@ metadata:
   name: {{ include "kubeflow.centralDashboard.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+    {{- include "kubeflow.centralDashboard.labels" . | nindent 4 }}
 spec:
   selector:
     {{ include "kubeflow.centralDashboard.matchLabels" . | nindent 4 }}

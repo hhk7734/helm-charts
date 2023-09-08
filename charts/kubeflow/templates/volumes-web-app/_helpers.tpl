@@ -7,7 +7,7 @@ app.kubernetes.io/name: {{ include "kubeflow.volumesWebApp.fullname" . }}
 app: {{ include "kubeflow.volumesWebApp.fullname" . }}
 {{- end }}
 
-{{- define "kubeflow.volumesWebApp.labels" }}
+{{- define "kubeflow.volumesWebApp.labels" -}}
 {{- include "kubeflow.labels" . }}
 {{ include "kubeflow.volumesWebApp.matchLabels" . }}
 {{- end }}

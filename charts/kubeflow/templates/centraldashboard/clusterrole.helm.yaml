@@ -4,7 +4,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.centralDashboard.fullname" . }}
   labels:
-    {{ include "kubeflow.centralDashboard.labels" . | nindent 4 }}
+    {{- include "kubeflow.centralDashboard.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

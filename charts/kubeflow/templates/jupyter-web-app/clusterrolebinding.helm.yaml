@@ -5,7 +5,7 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

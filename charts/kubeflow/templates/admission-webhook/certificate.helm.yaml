@@ -5,7 +5,7 @@ metadata:
   name: {{ include "kubeflow.admissionWebhook.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
 spec:
   selfSigned: {}
 
@@ -16,7 +16,7 @@ metadata:
   name: {{ include "kubeflow.admissionWebhook.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
 spec:
   isCA: true
   issuerRef:

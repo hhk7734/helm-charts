@@ -5,7 +5,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.volumesWebApp.fullname" . }}
   labels:
-    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -60,7 +60,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.volumesWebApp.fullname" . }}-volume-ui-admin
   labels:
-    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
 rules: []
 
@@ -70,7 +70,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.volumesWebApp.fullname" . }}-volume-ui-edit
   labels:
-    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
 rules:
   - apiGroups:
@@ -92,7 +92,7 @@ kind: ClusterRole
 metadata:
   name: {{ include "kubeflow.volumesWebApp.fullname" . }}-volume-ui-view
   labels:
-    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
 rules:
   - apiGroups:

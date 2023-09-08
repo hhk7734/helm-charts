@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   selector:
     {{ include "kubeflow.jupyterWebApp.matchLabels" . | nindent 4 }}

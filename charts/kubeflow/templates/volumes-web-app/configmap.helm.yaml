@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.volumesWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
 data:
   APP_PREFIX: /volumes
   USERID_HEADER: {{ .Values.headers.userId | quote }}

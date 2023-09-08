@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        {{ include "kubeflow.jupyterWebApp.labels" . | nindent 8 }}
+        {{- include "kubeflow.jupyterWebApp.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "kubeflow.jupyterWebApp.fullname" . }}
       containers:

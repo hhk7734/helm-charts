@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.notebookController.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
+    {{- include "kubeflow.notebookController.labels" . | nindent 4 }}
 data:
   CLUSTER_DOMAIN: cluster.local
   CULL_IDLE_TIME: "1440"

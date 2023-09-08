@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   host: {{ include "kubeflow.jupyterWebApp.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc.cluster.local
   trafficPolicy:
@@ -20,7 +20,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   gateways:
     - kubeflow-gateway
@@ -49,7 +49,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:

@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.notebookController.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
+    {{- include "kubeflow.notebookController.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{ include "kubeflow.notebookController.labels" . | nindent 8 }}
+        {{- include "kubeflow.notebookController.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "kubeflow.notebookController.fullname" . }}
       containers:

@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.volumesWebApp.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
 spec:
   selector:
     {{ include "kubeflow.volumesWebApp.matchLabels" . | nindent 4 }}

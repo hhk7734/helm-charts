@@ -6,7 +6,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-config
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 data:
   spawner_ui_config.yaml: |
     {{- .Values.jupyterWebApp.spawnerUIConfig | toYaml | nindent 4 }}
@@ -18,7 +18,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-logos
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 data:
   {{- range $path, $_ := .Files.Glob "files/jupyter-web-app/*" }}
   {{ base $path }}: |-
@@ -32,7 +32,7 @@ metadata:
   name: {{ include "kubeflow.jupyterWebApp.fullname" . }}-env
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    {{ include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
+    {{- include "kubeflow.jupyterWebApp.labels" . | nindent 4 }}
 data:
   APP_PREFIX: /jupyter
   UI: default

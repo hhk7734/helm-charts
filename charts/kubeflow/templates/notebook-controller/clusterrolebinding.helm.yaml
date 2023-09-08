@@ -5,7 +5,7 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ include "kubeflow.notebookController.fullname" . }}
   labels:
-    {{ include "kubeflow.notebookController.labels" . | nindent 4 }}
+    {{- include "kubeflow.notebookController.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
