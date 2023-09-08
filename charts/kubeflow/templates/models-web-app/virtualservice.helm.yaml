@@ -9,7 +9,7 @@ metadata:
     {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 spec:
   gateways:
-    - {{ include "kubeflow.namespace" . }}/kubeflow-gateway
+    - kubeflow-gateway
   hosts:
     - "*"
   http:
@@ -33,13 +33,13 @@ metadata:
   labels:
     {{- include "kubeflow.modelsWebApp.labels" . | nindent 4 }}
 spec:
+  selector:
+    matchLabels:
+      {{- include "kubeflow.modelsWebApp.matchLabels" . | nindent 6 }}
   action: ALLOW
   rules:
     - from:
         - source:
             principals:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway
-  selector:
-    matchLabels:
-      {{- include "kubeflow.modelsWebApp.matchLabels" . | nindent 6 }}
 {{- end }}

@@ -25,10 +25,11 @@ spec:
       containers:
         - name: models-web-app
           image: "{{ .Values.modelsWebApp.image.repository }}:{{ .Values.modelsWebApp.image.tag }}"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 5000
-              name: http
+            - name: http
+              protocol: TCP
+              containerPort: 5000
           envFrom:
             - configMapRef:
                 name: {{ include "kubeflow.modelsWebApp.fullname" . }}-env

@@ -15,5 +15,5 @@ spec:
     - name: http
       port: 80
       protocol: TCP
-      targetPort: 5000
+      targetPort: http
 {{- end }}
