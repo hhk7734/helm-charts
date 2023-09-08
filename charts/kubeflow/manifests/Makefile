@@ -18,6 +18,10 @@ clean:
 	rm -rf $(HASH)
 	rm -rf manifests
 
+.PHONY: diff
+diff:
+	@sh ./scripts/diff.sh $(OLD_HASH) $(HASH)
+
 $(HASH)/pipeline.yaml: $(HASH)
 	kubectl kustomize manifests/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user > $(HASH)/pipeline.yaml
 
@@ -45,9 +49,11 @@ $(HASH)/models-web-app.yaml: $(HASH)
 manifests:
 	git clone git@github.com:kubeflow/manifests.git
 
+.PHONY: manifests_switch
+manifests_switch: manifests
 	pushd manifests \
 	&& git switch -d $(HASH) \
 	&& popd
 
-$(HASH): manifests
+$(HASH): manifests_switch
 	mkdir -p $(HASH)
