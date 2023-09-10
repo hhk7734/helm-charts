@@ -303,7 +303,7 @@ jupyterWebApp:
         #                  operator: "Exists"
         #            namespaceSelector: {}
         #            topologyKey: "kubernetes.io/hostname"
-        #readOnly: false
+        readOnly: false
       tolerationGroup:
         # The default `groupKey` from the options list
         # If readonly, the default value will be the only option
