@@ -237,7 +237,7 @@ jupyterWebApp:
             spec:
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 30Gi
               accessModes:
                 - ReadWriteOnce
         readOnly: false
