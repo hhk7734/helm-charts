@@ -1,0 +1,17 @@
+{{- if .Values.tensorboardWebApp.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+    namespace: {{ include "kubeflow.namespace" . }}
+{{- end }}

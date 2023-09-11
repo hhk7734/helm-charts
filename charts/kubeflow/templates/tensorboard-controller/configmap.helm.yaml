@@ -1,0 +1,14 @@
+{{- if .Values.tensorboardController.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kubeflow.tensorboardController.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.tensorboardController.labels" . | nindent 4 }}
+data:
+  ISTIO_GATEWAY: {{ include "kubeflow.namespace" . }}/kubeflow-gateway
+  RWO_PVC_SCHEDULING: "true"
+  TENSORBOARD_IMAGE: "{{ .Values.tensorboardController.tensorboard.image.repository }}:{{ .Values.tensorboardController.tensorboard.image.tag }}"
+{{- end }}

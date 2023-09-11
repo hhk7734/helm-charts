@@ -9,6 +9,8 @@ ALL_DEPS += $(HASH)/notebook-controller.yaml
 ALL_DEPS += $(HASH)/jupyter-web-app.yaml
 ALL_DEPS += $(HASH)/volumes-web-app.yaml
 ALL_DEPS += $(HASH)/models-web-app.yaml
+ALL_DEPS += $(HASH)/tensorboard-web-app.yaml
+ALL_DEPS += $(HASH)/tensorboard-controller.yaml
 
 .PHONY: all
 all: $(ALL_DEPS)
@@ -45,6 +47,13 @@ $(HASH)/volumes-web-app.yaml: $(HASH)
 
 $(HASH)/models-web-app.yaml: $(HASH)
 	kubectl kustomize manifests/contrib/kserve/models-web-app/overlays/kubeflow > $(HASH)/models-web-app.yaml
+
+$(HASH)/tensorboard-web-app.yaml: $(HASH)
+	kubectl kustomize manifests/apps/tensorboard/tensorboards-web-app/upstream/overlays/istio > $(HASH)/tensorboard-web-app.yaml
+
+$(HASH)/tensorboard-controller.yaml: $(HASH)
+	kubectl kustomize manifests/apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow > $(HASH)/tensorboard-controller.yaml
+
 
 manifests:
 	git clone git@github.com:kubeflow/manifests.git

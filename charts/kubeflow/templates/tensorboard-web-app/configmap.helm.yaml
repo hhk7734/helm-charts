@@ -1,0 +1,17 @@
+{{- if .Values.tensorboardWebApp.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}-env
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+data:
+  APP_PREFIX: /tensorboards
+  UI: default
+  USERID_HEADER: {{ .Values.headers.userId | quote }}
+  USERID_PREFIX: ""
+  APP_SECURE_COOKIES: "true"
+  CLUSTER_DOMAIN: cluster.local
+{{- end }}

@@ -44,6 +44,14 @@ data:
           "icon": "device:storage"
         },
         {{- end }}
+        {{- if .Values.tensorboardWebApp.enabled }}
+        {
+          "type": "item",
+          "link": "/tensorboards/",
+          "text": "Tensorboards",
+          "icon": "assessment"
+        },
+        {{- end }}
         {{- if .Values.modelsWebApp.enabled }}
         {
           "type": "item",

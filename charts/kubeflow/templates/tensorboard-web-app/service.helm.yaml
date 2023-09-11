@@ -1,0 +1,19 @@
+{{- if .Values.tensorboardWebApp.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{ include "kubeflow.tensorboardWebApp.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+{{- end }}

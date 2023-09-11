@@ -340,5 +340,27 @@ modelsWebApp:
     repository: kserve/models-web-app
     tag: v0.10.0
 
+tensorboardController:
+  enabled: true
+  image:
+    repository: docker.io/kubeflownotebookswg/tensorboard-controller
+    tag: v1.7.0-rc.0
+
+  proxy:
+    image:
+      repository: gcr.io/kubebuilder/kube-rbac-proxy
+      tag: v0.8.0
+
+  tensorboard:
+    image:
+      repository: tensorflow/tensorflow
+      tag: 2.5.1
+
+tensorboardWebApp:
+  enabled: true
+  image:
+    repository: docker.io/kubeflownotebookswg/tensorboards-web-app
+    tag: v1.7.0-rc.0
+
 crds:
   install: true

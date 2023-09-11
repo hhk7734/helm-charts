@@ -1,0 +1,31 @@
+{{- if .Values.tensorboardWebApp.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ include "kubeflow.tensorboardWebApp.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+      containers:
+        - name: tensorboard-web-app
+          image:  "{{ .Values.tensorboardWebApp.image.repository }}:{{ .Values.tensorboardWebApp.image.tag }}"
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}-env
+{{- end }}

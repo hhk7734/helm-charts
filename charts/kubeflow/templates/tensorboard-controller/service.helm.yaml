@@ -1,0 +1,19 @@
+{{- if .Values.tensorboardController.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeflow.tensorboardController.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.tensorboardController.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{ include "kubeflow.tensorboardController.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: https
+{{- end }}

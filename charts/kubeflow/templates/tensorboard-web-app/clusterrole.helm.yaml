@@ -1,0 +1,106 @@
+{{- if .Values.tensorboardWebApp.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
+      - tensorboard.kubeflow.org
+    resources:
+      - tensorboards
+      - tensorboards/finalizers
+    verbs:
+      - get
+      - list
+      - create
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}-tensorboard-ui-admin
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
+rules: []
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}-tensorboard-ui-edit
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
+rules:
+  - apiGroups:
+      - tensorboard.kubeflow.org
+    resources:
+      - tensorboards
+      - tensorboards/finalizers
+    verbs:
+      - get
+      - list
+      - create
+      - delete
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kubeflow.tensorboardWebApp.fullname" . }}-tensorboard-ui-view
+  labels:
+    {{- include "kubeflow.tensorboardWebApp.labels" . | nindent 4 }}
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
+rules:
+  - apiGroups:
+      - tensorboard.kubeflow.org
+    resources:
+      - tensorboards
+      - tensorboards/finalizers
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+    verbs:
+      - get
+      - list
+      - watch
+{{- end }}
