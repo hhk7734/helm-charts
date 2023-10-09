@@ -1,33 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: metadata-writer
+  name: {{ include "kubeflow.pipeline.metadataWriter.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: metadata-writer
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.metadataWriter.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: metadata-writer
-      app.kubernetes.io/component: ml-pipeline
-      app.kubernetes.io/name: kubeflow-pipelines
-      application-crd-id: kubeflow-pipelines
+      {{ include "kubeflow.pipeline.metadataWriter.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: metadata-writer
-        app.kubernetes.io/component: ml-pipeline
-        app.kubernetes.io/name: kubeflow-pipelines
-        application-crd-id: kubeflow-pipelines
+        {{- include "kubeflow.pipeline.metadataWriter.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.metadataWriter.fullname" . }}
       containers:
-        - env:
+        - name: main
+          image: "{{ .Values.pipeline.metadataWriter.image.repository }}:{{ .Values.pipeline.metadataWriter.image.tag }}"
+          env:
             - name: NAMESPACE_TO_WATCH
               value: ""
-          image: gcr.io/ml-pipeline/metadata-writer:2.0.1
-          name: main
-      serviceAccountName: kubeflow-pipelines-metadata-writer
