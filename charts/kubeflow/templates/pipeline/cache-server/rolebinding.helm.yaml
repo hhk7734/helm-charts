@@ -1,18 +1,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: kubeflow-pipelines-cache-binding
+  name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: cache-server
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.cacheServer.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: kubeflow-pipelines-cache-role
+  name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: kubeflow-pipelines-cache
+    name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
     namespace: {{ include "kubeflow.namespace" . }}

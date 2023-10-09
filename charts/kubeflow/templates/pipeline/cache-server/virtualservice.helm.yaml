@@ -1,0 +1,14 @@
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.cacheServer.labels" . | nindent 4 }}
+spec:
+  rules:
+    - {}
+  selector:
+    matchLabels:
+      {{ include "kubeflow.pipeline.cacheServer.matchLabels" . | nindent 6 }}

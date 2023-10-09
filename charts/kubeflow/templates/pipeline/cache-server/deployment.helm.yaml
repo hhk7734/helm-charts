@@ -1,31 +1,31 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cache-server
+  name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: cache-server
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.cacheServer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cache-server
-      app.kubernetes.io/component: ml-pipeline
-      app.kubernetes.io/name: kubeflow-pipelines
-      application-crd-id: kubeflow-pipelines
+      {{ include "kubeflow.pipeline.cacheServer.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: cache-server
-        app.kubernetes.io/component: ml-pipeline
-        app.kubernetes.io/name: kubeflow-pipelines
-        application-crd-id: kubeflow-pipelines
+        {{- include "kubeflow.pipeline.cacheServer.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
       containers:
-        - args:
+        - name: server
+          image: "{{ .Values.pipeline.cacheServer.image.repository }}:{{ .Values.pipeline.cacheServer.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+          args:
             - --db_driver=$(DBCONFIG_DRIVER)
             - --db_host=$(DBCONFIG_HOST_NAME)
             - --db_port=$(DBCONFIG_PORT)
@@ -33,6 +33,7 @@ spec:
             - --db_user=$(DBCONFIG_USER)
             - --db_password=$(DBCONFIG_PASSWORD)
             - --namespace_to_watch=$(NAMESPACE_TO_WATCH)
+            - --listen_port=$(WEBHOOK_PORT)
             - --tls_cert_filename=tls.crt
             - --tls_key_filename=tls.key
           env:
@@ -75,18 +76,23 @@ spec:
                   name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
             - name: NAMESPACE_TO_WATCH
               value: ""
-          image: gcr.io/ml-pipeline/cache-server:2.0.1
-          imagePullPolicy: Always
-          name: server
-          ports:
-            - containerPort: 8443
-              name: webhook-api
+            - name: DEFAULT_CACHE_STALENESS
+              valueFrom:
+                configMapKeyRef:
+                  key: DEFAULT_CACHE_STALENESS
+                  name: pipeline-install-config
+            - name: MAXIMUM_CACHE_STALENESS
+              valueFrom:
+                configMapKeyRef:
+                  key: MAXIMUM_CACHE_STALENESS
+                  name: pipeline-install-config
+            - name: WEBHOOK_PORT
+              value: "8443"
           volumeMounts:
             - mountPath: /etc/webhook/certs
               name: webhook-tls-certs
               readOnly: true
-      serviceAccountName: kubeflow-pipelines-cache
       volumes:
         - name: webhook-tls-certs
           secret:
-            secretName: webhook-server-tls
+            secretName: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}-cert

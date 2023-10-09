@@ -21,4 +21,4 @@ spec:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-scheduledworkflow
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-viewer-crd-service-account
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-pipelines-cache
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.cacheServer.fullname" . }}

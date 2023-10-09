@@ -1,0 +1,30 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.cacheServer.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.cacheServer.labels" . | nindent 4 }}
+spec:
+  commonName: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}-cert
+  dnsNames:
+  - {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
+  - {{ include "kubeflow.pipeline.cacheServer.fullname" . }}.{{ include "kubeflow.namespace" . }}
+  - {{ include "kubeflow.pipeline.cacheServer.fullname" . }}.{{ include "kubeflow.namespace" . }}.svc
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}
+  secretName: {{ include "kubeflow.pipeline.cacheServer.fullname" . }}-cert

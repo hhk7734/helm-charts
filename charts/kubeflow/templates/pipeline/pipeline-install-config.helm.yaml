@@ -93,3 +93,6 @@ data:
   ## If this value doesn't include a unit abbreviation, the units will be assumed
   ## to be nanoseconds.
   ConMaxLifeTime: "120s"
+
+  DEFAULT_CACHE_STALENESS: ""
+  MAXIMUM_CACHE_STALENESS: ""
