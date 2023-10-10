@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: metadata-grpc-server
-  namespace: {{ include "kubeflow.namespace" . }}
-  labels:
-    application-crd-id: kubeflow-pipelines

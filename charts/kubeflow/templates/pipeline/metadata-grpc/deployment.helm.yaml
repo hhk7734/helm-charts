@@ -1,30 +1,105 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: metadata-envoy-deployment
+  name: {{ include "kubeflow.pipeline.metadataGRPC.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    application-crd-id: kubeflow-pipelines
-    component: metadata-envoy
+    {{- include "kubeflow.pipeline.metadataGRPC.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application-crd-id: kubeflow-pipelines
-      component: metadata-envoy
+      {{ include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 6 }}
   template:
     metadata:
+      labels:
+        {{- include "kubeflow.pipeline.metadataGRPC.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.metadataGRPC.fullname" . }}
+      containers:
+        - name: container
+          image: "{{ .Values.pipeline.metadataGRPC.image.repository }}:{{ .Values.pipeline.metadataGRPC.image.tag }}"
+          ports:
+            - name: grpc-api
+              containerPort: 8080
+              protocol: TCP
+          command:
+            - /bin/metadata_store_server
+          args:
+            - --grpc_port=8080
+            - --mysql_config_database=$(MYSQL_DATABASE)
+            - --mysql_config_host=$(MYSQL_HOST)
+            - --mysql_config_port=$(MYSQL_PORT)
+            - --mysql_config_user=$(DBCONFIG_USER)
+            - --mysql_config_password=$(DBCONFIG_PASSWORD)
+            - --enable_database_upgrade=true
+          env:
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+            - name: DBCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: mlmdDb
+                  name: pipeline-install-config
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: dbHost
+                  name: pipeline-install-config
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: dbPort
+                  name: pipeline-install-config
+          livenessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            tcpSocket:
+              port: grpc-api
+            timeoutSeconds: 2
+          readinessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            tcpSocket:
+              port: grpc-api
+            timeoutSeconds: 2
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.pipeline.metadataGRPC.envoy.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.metadataGRPC.envoy.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ include "kubeflow.pipeline.metadataGRPC.envoy.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kubeflow.pipeline.metadataGRPC.envoy.labels" . | nindent 8 }}
       annotations:
         sidecar.istio.io/inject: "false"
-      labels:
-        application-crd-id: kubeflow-pipelines
-        component: metadata-envoy
     spec:
       containers:
-        - image: gcr.io/ml-pipeline/metadata-envoy:2.0.1
-          name: container
+        - name: container
+          image: "{{ .Values.pipeline.metadataGRPC.envoy.image.repository }}:{{ .Values.pipeline.metadataGRPC.envoy.image.tag }}"
           ports:
-            - containerPort: 9090
-              name: md-envoy
-            - containerPort: 9901
-              name: envoy-admin
+            - name: md-envoy
+              containerPort: 9090
+              protocol: TCP
+            - name: envoy-admin
+              containerPort: 9901
+              protocol: TCP

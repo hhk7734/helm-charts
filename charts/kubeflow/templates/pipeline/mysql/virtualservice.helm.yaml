@@ -21,7 +21,7 @@ spec:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-scheduledworkflow
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-viewer-crd-service-account
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.cacheServer.fullname" . }}
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/metadata-grpc-server
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.metadataGRPC.fullname" . }}
 
 ---
 apiVersion: networking.istio.io/v1alpha3

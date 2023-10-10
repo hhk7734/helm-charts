@@ -87,6 +87,15 @@ pipeline:
     image:
       repository: gcr.io/ml-pipeline/metadata-writer
       tag: 2.0.1
+  metadataGRPC:
+    image:
+      repository: gcr.io/tfx-oss-public/ml_metadata_store_server
+      tag: 1.5.0
+
+    envoy:
+      image:
+        repository: gcr.io/ml-pipeline/metadata-envoy
+        tag: 2.0.1
 
   mysql:
     # If you want to use an existing mysql, set this to false and fill in
