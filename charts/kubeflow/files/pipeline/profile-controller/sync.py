@@ -35,6 +35,7 @@ def get_settings_from_env(
     minio_secret_key=None,
     kubeflow_namespace=None,
     kfp_default_pipeline_root=None,
+    pipeline_serviceaccount=None,
 ):
     """
     Returns a dict of settings from environment variables relevant to the controller
@@ -108,6 +109,10 @@ def get_settings_from_env(
         "KFP_DEFAULT_PIPELINE_ROOT"
     )
 
+    settings["pipeline_serviceaccount"] = pipeline_serviceaccount or os.environ.get(
+        "PIPELINE_SERVICEACCOUNT", "ml-pipeline"
+    )
+
     return settings
 
 
@@ -124,6 +129,7 @@ def server_factory(
     minio_access_key,
     minio_secret_key,
     kubeflow_namespace,
+    pipeline_serviceaccount,
     kfp_default_pipeline_root=None,
     url="",
     controller_port=8080,
@@ -220,7 +226,7 @@ def server_factory(
                                     {
                                         "source": {
                                             "principals": [
-                                                f"cluster.local/ns/{kubeflow_namespace}/sa/ml-pipeline"
+                                                f"cluster.local/ns/{kubeflow_namespace}/sa/{pipeline_serviceaccount}"
                                             ]
                                         }
                                     }

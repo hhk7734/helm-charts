@@ -16,7 +16,7 @@ spec:
     - from:
         - source:
             principals:
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.apiServer.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-ui
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-scheduledworkflow

@@ -1,12 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: pipeline-api-server-config
+  name: {{ include "kubeflow.pipeline.apiServer.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.apiServer.labels" . | nindent 4 }}
 data:
   DEFAULTPIPELINERUNNERSERVICEACCOUNT: default-editor
   MULTIUSER: "true"

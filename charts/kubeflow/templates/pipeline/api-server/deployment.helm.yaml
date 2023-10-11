@@ -2,32 +2,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-pipeline
+  name: {{ include "kubeflow.pipeline.apiServer.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: ml-pipeline
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.apiServer.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline
-      app.kubernetes.io/component: ml-pipeline
-      app.kubernetes.io/name: kubeflow-pipelines
-      application-crd-id: kubeflow-pipelines
+      {{- include "kubeflow.pipeline.apiServer.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
-        app: ml-pipeline
-        app.kubernetes.io/component: ml-pipeline
-        app.kubernetes.io/name: kubeflow-pipelines
-        application-crd-id: kubeflow-pipelines
+        {{- include "kubeflow.pipeline.apiServer.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.apiServer.fullname" . }}
       containers:
-        - env:
+        - name: ml-pipeline-api-server
+          image: "{{ .Values.pipeline.apiServer.image.repository }}:{{ .Values.pipeline.apiServer.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8888
+              protocol: TCP
+            - name: grpc
+              containerPort: 8887
+              protocol: TCP
+          env:
             - name: KUBEFLOW_USERID_HEADER
               value: {{ .Values.headers.userId }}
             - name: KUBEFLOW_USERID_PREFIX
@@ -112,9 +114,11 @@ spec:
                   name: mlpipeline-minio-artifact
           envFrom:
             - configMapRef:
-                name: pipeline-api-server-config
-          image: gcr.io/ml-pipeline/api-server:2.0.1
-          imagePullPolicy: IfNotPresent
+                name: {{ include "kubeflow.pipeline.apiServer.fullname" . }}
+          resources:
+            requests:
+              cpu: 250m
+              memory: 500Mi
           livenessProbe:
             exec:
               command:
@@ -127,12 +131,6 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
-          name: ml-pipeline-api-server
-          ports:
-            - containerPort: 8888
-              name: http
-            - containerPort: 8887
-              name: grpc
           readinessProbe:
             exec:
               command:
@@ -145,10 +143,6 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
-          resources:
-            requests:
-              cpu: 250m
-              memory: 500Mi
           startupProbe:
             exec:
               command:
@@ -161,4 +155,3 @@ spec:
             failureThreshold: 12
             periodSeconds: 5
             timeoutSeconds: 2
-      serviceAccountName: ml-pipeline
