@@ -60,7 +60,12 @@ data:
   ##
   ## V2 Compatible Mode Feature stage:
   ## [Beta](https://github.com/kubeflow/pipelines/blob/master/docs/release/feature-stages.md#beta)
-  defaultPipelineRoot: ""
+  {{- if .Values.pipeline.objectStore.defaultPipelineRootMultiUser }}
+  defaultPipelineRoot: {{ .Values.pipeline.objectStore.defaultPipelineRootMultiUser | quote }}
+  {{- else }}
+  defaultPipelineRoot: {{ .Values.pipeline.objectStore.defaultPipelineRoot | quote }}
+  {{- end }}
+
   ## autoUpdatePipelineDefaultVersion: States if the pipeline version
   ## should be updated by defult for a versioned pipeline or not when a new
   ## version is uploaded. This sets the deployment wide definition.
@@ -101,4 +106,4 @@ metadata:
   name: kfp-launcher
   namespace: {{ include "kubeflow.namespace" . }}
 data:
-  defaultPipelineRoot: ""
+  defaultPipelineRoot: {{ .Values.pipeline.objectStore.defaultPipelineRoot | quote }}

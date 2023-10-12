@@ -123,6 +123,10 @@ pipeline:
     bucketName: mlpipeline
     keyFormat: "artifacts/{{workflow.name}}/{{workflow.creationTimestamp.Y}}/{{workflow.creationTimestamp.m}}/{{workflow.creationTimestamp.d}}/{{pod.name}}"
 
+    defaultPipelineRoot: ""
+    # If empty, defaultPipelineRoot will be used.
+    defaultPipelineRootMultiUser: ""
+
 accessManagement:
   kfam:
     image:
