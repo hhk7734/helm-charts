@@ -10,7 +10,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{ include "kubeflow.notebookController.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.notebookController.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:

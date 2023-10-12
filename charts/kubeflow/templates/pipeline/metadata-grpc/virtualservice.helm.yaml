@@ -48,7 +48,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 6 }}
   action: ALLOW
   rules:
     - {}

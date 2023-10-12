@@ -1,32 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-pipeline-scheduledworkflow
+  name: {{ include "kubeflow.pipeline.scheduledWorkflow.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: ml-pipeline-scheduledworkflow
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.scheduledWorkflow.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-scheduledworkflow
-      app.kubernetes.io/component: ml-pipeline
-      app.kubernetes.io/name: kubeflow-pipelines
-      application-crd-id: kubeflow-pipelines
+      {{- include "kubeflow.pipeline.scheduledWorkflow.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
-        app: ml-pipeline-scheduledworkflow
-        app.kubernetes.io/component: ml-pipeline
-        app.kubernetes.io/name: kubeflow-pipelines
-        application-crd-id: kubeflow-pipelines
+        {{- include "kubeflow.pipeline.scheduledWorkflow.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.scheduledWorkflow.fullname" . }}
       containers:
-        - env:
+        - name: scheduledworkflow
+          image: "{{ .Values.pipeline.scheduledWorkflow.image.repository }}:{{ .Values.pipeline.scheduledWorkflow.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
             - name: NAMESPACE
               value: ""
             - name: CRON_SCHEDULE_TIMEZONE
@@ -34,7 +29,3 @@ spec:
                 configMapKeyRef:
                   key: cronScheduleTimezone
                   name: pipeline-install-config
-          image: gcr.io/ml-pipeline/scheduledworkflow:2.0.1
-          imagePullPolicy: IfNotPresent
-          name: ml-pipeline-scheduledworkflow
-      serviceAccountName: ml-pipeline-scheduledworkflow

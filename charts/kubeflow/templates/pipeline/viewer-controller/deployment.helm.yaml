@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.pipeline.viewerController.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.viewerController.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "kubeflow.pipeline.viewerController.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      labels:
+        {{- include "kubeflow.pipeline.viewerController.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "kubeflow.pipeline.viewerController.fullname" . }}
+      containers:
+        - name: viewer-controller
+          image: "{{ .Values.pipeline.viewerController.image.repository }}:{{ .Values.pipeline.viewerController.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NAMESPACE
+              value: ""
+            - name: MAX_NUM_VIEWERS
+              value: "50"

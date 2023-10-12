@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{ include "kubeflow.admissionWebhook.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.admissionWebhook.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:

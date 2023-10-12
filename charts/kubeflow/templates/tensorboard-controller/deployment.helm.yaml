@@ -10,7 +10,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{ include "kubeflow.tensorboardController.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.tensorboardController.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
@@ -44,7 +44,6 @@ spec:
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 20
-          name: manager
           readinessProbe:
             httpGet:
               path: /readyz

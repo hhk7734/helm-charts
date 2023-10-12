@@ -1,0 +1,36 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "kubeflow.pipeline.visualizationServer.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.visualizationServer.labels" . | nindent 4 }}
+spec:
+  host: ml-pipeline-visualizationserver.{{ include "kubeflow.namespace" . }}.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "kubeflow.pipeline.visualizationServer.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pipeline.visualizationServer.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "kubeflow.pipeline.visualizationServer.matchLabels" . | nindent 6 }}
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.apiServer.fullname" . }}
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.frontend.fullname" . }}
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.scheduledWorkflow.fullname" . }}
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.viewerController.fullname" . }}
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.cacheServer.fullname" . }}

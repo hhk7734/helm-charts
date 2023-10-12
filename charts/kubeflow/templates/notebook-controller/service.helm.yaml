@@ -9,7 +9,7 @@ metadata:
     {{- include "kubeflow.notebookController.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.notebookController.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.notebookController.matchLabels" . | nindent 4 }}
   type: ClusterIP
   ports:
     - name: https

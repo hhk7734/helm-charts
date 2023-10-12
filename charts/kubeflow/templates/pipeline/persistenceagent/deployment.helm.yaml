@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-pipeline-persistenceagent
+  name: {{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
     {{- include "kubeflow.pipeline.persistenceAgent.labels" . | nindent 4 }}
@@ -18,8 +18,8 @@ spec:
     spec:
       serviceAccountName: {{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
       containers:
-        - name: ml-pipeline-persistenceagent
-          image: gcr.io/ml-pipeline/persistenceagent:2.0.1
+        - name: persistenceagent
+          image: "{{ .Values.pipeline.persistenceAgent.image.repository }}:{{ .Values.pipeline.persistenceAgent.image.tag }}"
           imagePullPolicy: IfNotPresent
           env:
             - name: NAMESPACE

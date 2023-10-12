@@ -10,7 +10,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
@@ -85,7 +85,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.metadataGRPC.envoy.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.metadataGRPC.envoy.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:

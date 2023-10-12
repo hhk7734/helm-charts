@@ -9,7 +9,7 @@ metadata:
     {{- include "kubeflow.tensorboardController.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.tensorboardController.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.tensorboardController.matchLabels" . | nindent 4 }}
   type: ClusterIP
   ports:
     - name: https

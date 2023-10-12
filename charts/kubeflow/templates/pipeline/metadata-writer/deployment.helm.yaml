@@ -9,7 +9,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.metadataWriter.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.metadataWriter.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:

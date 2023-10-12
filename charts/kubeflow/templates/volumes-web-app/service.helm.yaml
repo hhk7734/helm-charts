@@ -9,7 +9,7 @@ metadata:
     {{- include "kubeflow.volumesWebApp.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.volumesWebApp.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.volumesWebApp.matchLabels" . | nindent 4 }}
   type: ClusterIP
   ports:
     - name: http

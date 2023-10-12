@@ -1,35 +1,31 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-pipeline-visualizationserver
+  name: {{ include "kubeflow.pipeline.visualizationServer.fullname" . }}
   namespace: {{ include "kubeflow.namespace" . }}
   labels:
-    app: ml-pipeline-visualizationserver
-    app.kubernetes.io/component: ml-pipeline
-    app.kubernetes.io/name: kubeflow-pipelines
-    application-crd-id: kubeflow-pipelines
+    {{- include "kubeflow.pipeline.visualizationServer.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-visualizationserver
-      app.kubernetes.io/component: ml-pipeline
-      app.kubernetes.io/name: kubeflow-pipelines
-      application-crd-id: kubeflow-pipelines
+      {{- include "kubeflow.pipeline.visualizationServer.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
-        app: ml-pipeline-visualizationserver
-        app.kubernetes.io/component: ml-pipeline
-        app.kubernetes.io/name: kubeflow-pipelines
-        application-crd-id: kubeflow-pipelines
+        {{- include "kubeflow.pipeline.visualizationServer.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: ml-pipeline-visualizationserver
+      serviceAccountName: {{ include "kubeflow.pipeline.visualizationServer.fullname" . }}
       containers:
-        - name: ml-pipeline-visualizationserver
-          image: gcr.io/ml-pipeline/visualization-server:2.0.1
+        - name: visualizationserver
+          image: "{{ .Values.pipeline.visualizationServer.image.repository }}:{{ .Values.pipeline.visualizationServer.image.tag }}"
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8888
+              protocol: TCP
           livenessProbe:
             exec:
               command:
@@ -42,9 +38,6 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
-          ports:
-            - containerPort: 8888
-              name: http
           readinessProbe:
             exec:
               command:

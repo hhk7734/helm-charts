@@ -11,7 +11,7 @@ spec:
   serviceName: {{ include "kubeflow.pipeline.mysql.fullname" . }}-hl
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.mysql.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.mysql.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:

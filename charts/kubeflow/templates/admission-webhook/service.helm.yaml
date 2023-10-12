@@ -8,7 +8,7 @@ metadata:
     {{- include "kubeflow.admissionWebhook.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.admissionWebhook.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.admissionWebhook.matchLabels" . | nindent 4 }}
   ports:
     - name: https-webhook
       port: 443

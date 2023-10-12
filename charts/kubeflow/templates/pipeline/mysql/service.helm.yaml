@@ -8,7 +8,7 @@ metadata:
     {{- include "kubeflow.pipeline.mysql.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.pipeline.mysql.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.pipeline.mysql.matchLabels" . | nindent 4 }}
   type: ClusterIP
   ports:
     - name: mysql

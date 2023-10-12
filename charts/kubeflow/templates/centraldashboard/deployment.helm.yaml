@@ -10,7 +10,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ include "kubeflow.centralDashboard.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.centralDashboard.matchLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:

@@ -10,16 +10,16 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.mysql.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.mysql.matchLabels" . | nindent 6 }}
   rules:
     - from:
         - source:
             principals:
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.apiServer.fullname" . }}
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-ui
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.frontend.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-scheduledworkflow
-              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/ml-pipeline-viewer-crd-service-account
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.scheduledWorkflow.fullname" . }}
+              - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.viewerController.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.cacheServer.fullname" . }}
               - cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.metadataGRPC.fullname" . }}
 

@@ -71,7 +71,7 @@ pipeline:
     image:
       repository: gcr.io/ml-pipeline/frontend
       tag: 2.0.1
-  viewerCrdController:
+  viewerController:
     image:
       repository: gcr.io/ml-pipeline/viewer-crd-controller
       tag: 2.0.1

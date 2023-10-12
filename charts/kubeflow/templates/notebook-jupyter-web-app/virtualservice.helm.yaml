@@ -53,7 +53,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{ include "kubeflow.jupyterWebApp.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.jupyterWebApp.matchLabels" . | nindent 6 }}
   action: ALLOW
   rules:
     - from:

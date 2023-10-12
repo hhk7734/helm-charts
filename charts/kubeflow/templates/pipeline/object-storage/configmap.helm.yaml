@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: artifact-repositories
+  namespace: {{ include "kubeflow.namespace" . }}
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: artifactRepository
+data:
+  artifactRepository: |
+    archiveLogs: true
+    s3:
+      endpoint: {{ .Values.pipeline.objectStore.host }}
+      bucket: {{ .Values.pipeline.objectStore.bucketName }}
+      {{- with .Values.pipeline.objectStore.region }}
+      region: {{ . }}
+      {{- end }}
+      keyFormat: {{ .Values.pipeline.objectStore.keyFormat | quote }}
+      insecure: true
+      accessKeySecret:
+        name: mlpipeline-minio-artifact
+        key: accesskey
+      secretKeySecret:
+        name: mlpipeline-minio-artifact
+        key: secretkey

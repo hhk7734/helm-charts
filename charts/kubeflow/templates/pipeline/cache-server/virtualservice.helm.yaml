@@ -11,4 +11,4 @@ spec:
     - {}
   selector:
     matchLabels:
-      {{ include "kubeflow.pipeline.cacheServer.matchLabels" . | nindent 6 }}
+      {{- include "kubeflow.pipeline.cacheServer.matchLabels" . | nindent 6 }}

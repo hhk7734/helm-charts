@@ -8,7 +8,7 @@ metadata:
     {{- include "kubeflow.pipeline.metadataGRPC.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.pipeline.metadataGRPC.matchLabels" . | nindent 4 }}
   type: ClusterIP
   ports:
     - name: grpc-api
@@ -26,7 +26,7 @@ metadata:
     {{- include "kubeflow.pipeline.metadataGRPC.envoy.labels" . | nindent 4 }}
 spec:
   selector:
-    {{ include "kubeflow.pipeline.metadataGRPC.envoy.matchLabels" . | nindent 4 }}
+    {{- include "kubeflow.pipeline.metadataGRPC.envoy.matchLabels" . | nindent 4 }}
   type: ClusterIP
   ports:
     - name: md-envoy
