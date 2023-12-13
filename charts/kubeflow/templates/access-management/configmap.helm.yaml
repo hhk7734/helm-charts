@@ -46,6 +46,9 @@ metadata:
     {{- include "kubeflow.accessManagement.labels" . | nindent 4 }}
 data:
   ADMIN: {{ .Values.accessManagement.clusterAdmin | quote }}
+  ISTIO_INGRESS_GATEWAY_PRINCIPAL: cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/kubeflow-gateway
+  KFP_UI_PRINCIPAL: cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.pipeline.frontend.fullname" . }}
+  NOTEBOOK_CONTROLLER_PRINCIPAL: cluster.local/ns/{{ include "kubeflow.namespace" . }}/sa/{{ include "kubeflow.notebookController.fullname" . }}
   USERID_HEADER: {{ .Values.headers.userId | quote }}
   USERID_PREFIX: ""
   WORKLOAD_IDENTITY: ""

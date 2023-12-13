@@ -6,4 +6,6 @@ metadata:
   labels:
     {{- include "kubeflow.pipeline.persistenceAgent.labels" . | nindent 4 }}
 data:
-  MULTIUSER: "true"
+  NAMESPACE: ""
+  NUM_WORKERS: "2"
+  TTL_SECONDS_AFTER_WORKFLOW_FINISH: "86400"

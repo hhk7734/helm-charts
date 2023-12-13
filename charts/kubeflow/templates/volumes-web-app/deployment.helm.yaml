@@ -27,5 +27,13 @@ spec:
               containerPort: 5000
           envFrom:
             - configMapRef:
-                name: {{ include "kubeflow.volumesWebApp.fullname" . }}
+                name: {{ include "kubeflow.volumesWebApp.fullname" . }}-env
+          volumeMounts:
+            - name: viewer-spec
+              mountPath: /etc/config/viewer-spec.yaml
+              subPath: viewer-spec.yaml
+      volumes:
+        - name: viewer-spec
+          configMap:
+            name: {{ include "kubeflow.volumesWebApp.fullname" . }}-viewer-spec
 {{- end }}

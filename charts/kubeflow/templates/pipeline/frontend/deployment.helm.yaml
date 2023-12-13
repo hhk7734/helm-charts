@@ -109,6 +109,6 @@ spec:
               name: config-volume
               readOnly: true
       volumes:
-        - configMap:
-            name: ml-pipeline-ui-configmap
-          name: config-volume
+        - name: config-volume
+          configMap:
+            name: {{ include "kubeflow.pipeline.frontend.fullname" . }}

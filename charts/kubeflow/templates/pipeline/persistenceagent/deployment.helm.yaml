@@ -21,17 +21,6 @@ spec:
         - name: persistenceagent
           image: "{{ .Values.pipeline.persistenceAgent.image.repository }}:{{ .Values.pipeline.persistenceAgent.image.tag }}"
           imagePullPolicy: IfNotPresent
-          env:
-            - name: NAMESPACE
-              value: ""
-            - name: TTL_SECONDS_AFTER_WORKFLOW_FINISH
-              value: "86400"
-            - name: NUM_WORKERS
-              value: "2"
-            - name: KUBEFLOW_USERID_HEADER
-              value: {{ .Values.headers.userId | quote }}
-            - name: KUBEFLOW_USERID_PREFIX
-              value: ""
           envFrom:
             - configMapRef:
                 name: {{ include "kubeflow.pipeline.persistenceAgent.fullname" . }}

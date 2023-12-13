@@ -1,5 +1,5 @@
-HASH=abc72bea09259eeea96646d0414a14539e18d02a
-OLD_HASH=
+HASH=v1.8.0
+OLD_HASH=abc72bea09259eeea96646d0414a14539e18d02a
 
 ALL_DEPS = $(HASH)/pipeline.yaml
 ALL_DEPS += $(HASH)/centraldashboard.yaml
@@ -44,6 +44,9 @@ $(HASH)/jupyter-web-app.yaml: $(HASH)
 
 $(HASH)/volumes-web-app.yaml: $(HASH)
 	kubectl kustomize manifests/apps/volumes-web-app/upstream/overlays/istio > $(HASH)/volumes-web-app.yaml
+
+$(HASH)/pvcviewer-controller.yaml: $(HASH)
+	kubectl kustomize manifests/apps/pvcviewer-controller/upstream/default > $(HASH)/pvcviewer-controller.yaml
 
 $(HASH)/models-web-app.yaml: $(HASH)
 	kubectl kustomize manifests/contrib/kserve/models-web-app/overlays/kubeflow > $(HASH)/models-web-app.yaml

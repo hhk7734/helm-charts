@@ -102,6 +102,36 @@ spec:
                 configMapKeyRef:
                   key: ConMaxLifeTime
                   name: pipeline-install-config
+            - name: DB_DRIVER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbType
+                  name: pipeline-install-config
+            - name: DBCONFIG_MYSQLCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+            - name: DBCONFIG_MYSQLCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ include "kubeflow.pipeline.mysql.fullname" . }}
+            - name: DBCONFIG_MYSQLCONFIG_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: pipelineDb
+                  name: pipeline-install-config
+            - name: DBCONFIG_MYSQLCONFIG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: mysqlHost
+                  name: pipeline-install-config
+            - name: DBCONFIG_MYSQLCONFIG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: mysqlPort
+                  name: pipeline-install-config
             - name: OBJECTSTORECONFIG_ACCESSKEY
               valueFrom:
                 secretKeyRef:

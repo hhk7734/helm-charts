@@ -1,0 +1,63 @@
+{{- if .Values.pvcViewerController.enabled }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+  labels:
+    {{- include "kubeflow.pvcViewerController.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/inject-ca-from: {{ include "kubeflow.namespace" . }}/{{ include "kubeflow.pvcViewerController.fullname" . }}
+webhooks:
+  - name: mpvcviewer.kb.io
+    admissionReviewVersions:
+      - v1
+    rules:
+      - apiGroups:
+          - kubeflow.org
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pvcviewers
+    sideEffects: None
+    failurePolicy: Fail
+    clientConfig:
+      service:
+        name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+        namespace: {{ include "kubeflow.namespace" . }}
+        path: /mutate-kubeflow-org-v1alpha1-pvcviewer
+
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+  labels:
+    {{- include "kubeflow.pvcViewerController.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/inject-ca-from: {{ include "kubeflow.namespace" . }}/{{ include "kubeflow.pvcViewerController.fullname" . }}
+webhooks:
+  - name: vpvcviewer.kb.io
+    admissionReviewVersions:
+      - v1
+    rules:
+      - apiGroups:
+          - kubeflow.org
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pvcviewers
+    sideEffects: None
+    failurePolicy: Fail
+    clientConfig:
+      service:
+        name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+        namespace: {{ include "kubeflow.namespace" . }}
+        path: /validate-kubeflow-org-v1alpha1-pvcviewer
+{{- end }}

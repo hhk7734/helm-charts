@@ -1,0 +1,115 @@
+{{- if .Values.pvcViewerController.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pvcViewerController.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "kubeflow.pvcViewerController.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kubeflow.pvcViewerController.labels" . | nindent 8 }}
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+        traffic.sidecar.istio.io/excludeInboundPorts: "9443"
+    spec:
+      serviceAccountName: {{ include "kubeflow.pvcViewerController.fullname" . }}
+      containers:
+        - name: pvcviewer-controller
+          image: "{{ .Values.pvcViewerController.image.repository }}:{{ .Values.pvcViewerController.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - /manager
+          args:
+            - --health-probe-bind-address=:8081
+            - --metrics-bind-address=127.0.0.1:8080
+            - --leader-elect
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: webhook-server
+              protocol: TCP
+              containerPort: 9443
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
+          volumeMounts:
+            - name: cert
+              mountPath: /tmp/k8s-webhook-server/serving-certs
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+        - name: rbac-proxy
+          image: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+          imagePullPolicy: IfNotPresent
+          args:
+            - --secure-listen-address=0.0.0.0:8443
+            - --upstream=http://127.0.0.1:8080/
+            - --logtostderr=true
+            - --v=0
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: https
+              protocol: TCP
+              containerPort: 8443
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 5m
+              memory: 64Mi
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                      - arm64
+                      - ppc64le
+                      - s390x
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+      volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: {{ include "kubeflow.pvcViewerController.fullname" . }}-certs
+{{- end }}

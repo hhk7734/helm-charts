@@ -1,0 +1,18 @@
+{{- if .Values.pvcViewerController.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}-leader-election
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pvcViewerController.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}-leader-election
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+    namespace: {{ include "kubeflow.namespace" . }}
+{{- end }}

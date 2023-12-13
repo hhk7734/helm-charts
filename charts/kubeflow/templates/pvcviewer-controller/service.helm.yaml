@@ -1,0 +1,37 @@
+{{- if .Values.pvcViewerController.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pvcViewerController.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "kubeflow.pvcViewerController.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: webhook-server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeflow.pvcViewerController.fullname" . }}-metrics
+  namespace: {{ include "kubeflow.namespace" . }}
+  labels:
+    {{- include "kubeflow.pvcViewerController.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "kubeflow.pvcViewerController.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: https
+{{- end }}

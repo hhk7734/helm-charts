@@ -17,6 +17,9 @@ data:
 
   dbHost: {{ include "kubeflow.pipeline.mysql.host" . | quote }}
   dbPort: {{ include "kubeflow.pipeline.mysql.port" . | quote }}
+  dbType: mysql
+  mysqlHost: {{ include "kubeflow.pipeline.mysql.host" . | quote }}
+  mysqlPort: {{ include "kubeflow.pipeline.mysql.port" . | quote }}
   mlmdDb: metadb
   cacheDb: cachedb
   pipelineDb: mlpipeline
