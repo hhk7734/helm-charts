@@ -1,0 +1,6 @@
+apiVersion: v2
+name: rdma-shared-device-plugin
+description: RDMA Shared Device Plugin
+type: application
+version: 0.1.0
+appVersion: 1.4.0
