@@ -31,6 +31,12 @@ spec:
           imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
           securityContext:
             privileged: true
+          command:
+            - /bin/k8s-rdma-shared-dp
+          {{- if .Values.cdi.enabled }}
+          args:
+            - -use-cdi
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
@@ -46,7 +52,7 @@ spec:
               mountPath: /dev/
             {{- if .Values.cdi.enabled }}
             - name: dynamic-cdi
-              mountPath: /var/lib/cdi
+              mountPath: /var/run/cdi
             {{- end }}
       volumes:
         - name: device-plugin
@@ -67,7 +73,7 @@ spec:
         {{- if .Values.cdi.enabled }}
         - name: dynamic-cdi
           hostPath:
-            path: /var/lib/cdi
+            path: /var/run/cdi
             type: DirectoryOrCreate
         {{- end }}
       {{- with .Values.tolerations }}
