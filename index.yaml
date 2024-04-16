@@ -4,13 +4,48 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Added support for http probe scheme for dex liveness and readiness
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v2.10.1
+    created: "2024-04-16T17:30:09.490478228+09:00"
+    dependencies:
+    - condition: redis-ha.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts/
+      version: 4.26.1
+    description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery
+      tool for Kubernetes.
+    digest: 457e12363da5312a353addd91e2445c6a6ccf2a56064dcde76a33c8f81b8939b
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+    keywords:
+    - argoproj
+    - argocd
+    - gitops
+    kubeVersion: '>=1.23.0-0'
+    maintainers:
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-cd
+    sources:
+    - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+    - https://github.com/argoproj/argo-cd
+    urls:
+    - charts/argo-cd-6.4.1.tgz
+    version: 6.4.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Bump argo-cd to v2.9.6
       artifacthub.io/signKey: |
         fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v2.9.6
-    created: "2024-04-16T11:20:45.783558465+09:00"
+    created: "2024-04-16T17:30:09.480033041+09:00"
     dependencies:
     - condition: redis-ha.enabled
       name: redis-ha
@@ -36,10 +71,21 @@ entries:
     urls:
     - charts/argo-cd-5.53.13.tgz
     version: 5.53.13
+  awx-operator:
+  - apiVersion: v2
+    appVersion: 2.15.0
+    created: "2024-04-16T17:30:09.491165695+09:00"
+    description: A Helm chart for the AWX Operator
+    digest: d272279ef0f9b6ce171223450e9f030dfec3fd47adcd29ac39cc335dcd2cb84e
+    name: awx-operator
+    type: application
+    urls:
+    - charts/awx-operator-2.15.0.tgz
+    version: 2.15.0
   casdoor-helm-charts:
   - apiVersion: v2
     appVersion: v1.514.0
-    created: "2024-04-16T11:20:45.784179655+09:00"
+    created: "2024-04-16T17:30:09.491560126+09:00"
     description: A Helm chart for Kubernetes
     digest: 1f69b376cc43c1e195beaff925d4416cd0dbb8531cd88f722b63ce00ca07b7af
     name: casdoor-helm-charts
@@ -56,7 +102,7 @@ entries:
         url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
     apiVersion: v1
     appVersion: v1.13.3
-    created: "2024-04-16T11:20:45.786777471+09:00"
+    created: "2024-04-16T17:30:09.494332819+09:00"
     description: A Helm chart for cert-manager
     digest: f30f3e6f7327f171ecb1ad60079df55639ad6469a80f32e5b60667af950455d5
     home: https://github.com/cert-manager/cert-manager
@@ -203,7 +249,7 @@ entries:
             CiliumPodIPPool defines an IP pool that can be used for pooled IPAM (i.e. the multi-pool IPAM mode).
     apiVersion: v2
     appVersion: 1.14.6
-    created: "2024-04-16T11:20:45.796334179+09:00"
+    created: "2024-04-16T17:30:09.50656267+09:00"
     description: eBPF-based Networking, Security, and Observability
     digest: d6ae0dcedf8368a90c4d44b7d5d52950a67a4e7dd0cfe58965e4aac256fa493d
     home: https://cilium.io/
@@ -233,7 +279,7 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 10.4.0
-    created: "2024-04-16T11:20:45.798898401+09:00"
+    created: "2024-04-16T17:30:09.509509206+09:00"
     description: The leading tool for querying and visualizing time series and metrics.
     digest: 7e273851e7eb72417327dfd5115e42ebb032ff88a362c716f4a8666864c2a8ad
     home: https://grafana.com
@@ -261,6 +307,73 @@ entries:
     urls:
     - charts/grafana-7.3.7.tgz
     version: 7.3.7
+  harbor:
+  - apiVersion: v1
+    appVersion: 2.10.0
+    created: "2024-04-16T17:30:09.512261106+09:00"
+    description: An open source trusted cloud native registry that stores, signs,
+      and scans content
+    digest: a0ae2ebd3b2bdde809090558d61e2c0b9a4984f09e70a2a874504c3815b346e4
+    home: https://goharbor.io
+    icon: https://raw.githubusercontent.com/goharbor/website/main/static/img/logos/harbor-icon-color.png
+    keywords:
+    - docker
+    - registry
+    - harbor
+    maintainers:
+    - email: yinw@vmware.com
+      name: Wenkai Yin
+    - email: hweiwei@vmware.com
+      name: Weiwei He
+    - email: yshengwen@vmware.com
+      name: Shengwen Yu
+    name: harbor
+    sources:
+    - https://github.com/goharbor/harbor
+    - https://github.com/goharbor/harbor-helm
+    urls:
+    - charts/harbor-1.14.0.tgz
+    version: 1.14.0
+  keycloak:
+  - annotations:
+      category: DeveloperTools
+      images: |
+        - name: keycloak
+          image: docker.io/bitnami/keycloak:23.0.7-debian-12-r4
+        - name: keycloak-config-cli
+          image: docker.io/bitnami/keycloak-config-cli:5.11.1-debian-12-r0
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 23.0.7
+    created: "2024-04-16T17:30:09.519946292+09:00"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 14.x.x
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Keycloak is a high performance Java-based identity and access management
+      solution. It lets developers add an authentication layer to their applications
+      with minimum effort.
+    digest: c29239eb5f229fcc93e62ac8da5e7511343dad336928b2a8518fc925a2ad719d
+    home: https://bitnami.com
+    icon: https://bitnami.com/assets/stacks/keycloak/img/keycloak-stack-220x234.png
+    keywords:
+    - keycloak
+    - access-management
+    maintainers:
+    - name: VMware, Inc.
+      url: https://github.com/bitnami/charts
+    name: keycloak
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/keycloak
+    urls:
+    - charts/keycloak-19.3.4.tgz
+    version: 19.3.4
   kube-prometheus-stack:
   - annotations:
       artifacthub.io/license: Apache-2.0
@@ -272,7 +385,7 @@ entries:
       artifacthub.io/operator: "true"
     apiVersion: v2
     appVersion: v0.72.0
-    created: "2024-04-16T11:20:45.823150677+09:00"
+    created: "2024-04-16T17:30:09.569414147+09:00"
     dependencies:
     - condition: crds.enabled
       name: crds
@@ -331,10 +444,90 @@ entries:
     urls:
     - charts/kube-prometheus-stack-57.0.1.tgz
     version: 57.0.1
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      artifacthub.io/operator: "true"
+    apiVersion: v2
+    appVersion: v0.71.2
+    created: "2024-04-16T17:30:09.545302449+09:00"
+    dependencies:
+    - condition: crds.enabled
+      name: crds
+      repository: ""
+      version: 0.0.0
+    - condition: kubeStateMetrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 5.16.*
+    - condition: nodeExporter.enabled
+      name: prometheus-node-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.30.*
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.*
+    - condition: windowsMonitoring.enabled
+      name: prometheus-windows-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 0.3.*
+    description: kube-prometheus-stack collects Kubernetes manifests, Grafana dashboards,
+      and Prometheus rules combined with documentation and scripts to provide easy
+      to operate end-to-end Kubernetes cluster monitoring with Prometheus using the
+      Prometheus Operator.
+    digest: a260c2b5ad78cbf8e43e830b608d4ca52a616eb502cc6e4f37cfd7bf93db0290
+    home: https://github.com/prometheus-operator/kube-prometheus
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    kubeVersion: '>=1.19.0-0'
+    maintainers:
+    - email: andrew@quadcorps.co.uk
+      name: andrewgkew
+    - email: gianrubio@gmail.com
+      name: gianrubio
+    - email: github.gkarthiks@gmail.com
+      name: gkarthiks
+    - email: kube-prometheus-stack@sisti.pt
+      name: GMartinez-Sisti
+    - email: github@jkroepke.de
+      name: jkroepke
+    - email: scott@r6by.com
+      name: scottrigby
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: quentin.bisson@gmail.com
+      name: QuentinBisson
+    name: kube-prometheus-stack
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - charts/kube-prometheus-stack-56.8.2.tgz
+    version: 56.8.2
+  kubernetes-replicator:
+  - apiVersion: v2
+    appVersion: v2.9.2
+    created: "2024-04-16T17:30:09.569717028+09:00"
+    description: Controller for replicating secrets+configmaps across namespaces
+    digest: 7229545d3bdf075d8fd007d4ab67059f7a63483868efb0aaf506de0b1ff26633
+    name: kubernetes-replicator
+    type: application
+    urls:
+    - charts/kubernetes-replicator-2.9.2.tgz
+    version: 2.9.2
   local-path-provisioner:
   - apiVersion: v1
     appVersion: v0.0.26
-    created: "2024-04-16T11:20:45.823657299+09:00"
+    created: "2024-04-16T17:30:09.570153933+09:00"
     description: Use HostPath for persistent local storage with Kubernetes
     digest: 7a26dc746b60a67e694e49c52e1b43142c9c98a75d04cccd9ebf2e50f1f7b8ee
     home: https://github.com/rancher/local-path-provisioner
@@ -351,7 +544,7 @@ entries:
   loki-distributed:
   - apiVersion: v2
     appVersion: 2.9.5
-    created: "2024-04-16T11:20:45.829513044+09:00"
+    created: "2024-04-16T17:30:09.574920478+09:00"
     description: Helm chart for Grafana Loki in microservices mode
     digest: 1b9f211dcaafb00eed76dd728fa6a683be3680b3a69b98e936e96777f1b3d69b
     home: https://grafana.github.io/helm-charts
@@ -367,6 +560,32 @@ entries:
     urls:
     - charts/loki-distributed-0.78.4.tgz
     version: 0.78.4
+  metallb:
+  - apiVersion: v2
+    appVersion: v0.14.4
+    created: "2024-04-16T17:30:09.577276393+09:00"
+    dependencies:
+    - condition: crds.enabled
+      name: crds
+      repository: ""
+      version: 0.14.4
+    - condition: frrk8s.enabled
+      name: frr-k8s
+      repository: https://metallb.github.io/frr-k8s
+      version: 0.0.10
+    description: A network load-balancer implementation for Kubernetes using standard
+      routing protocols
+    digest: 41c6026f19737cf3658df23d51023f924a510e8be619a733da38e7e4dc79d872
+    home: https://metallb.universe.tf
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    kubeVersion: '>= 1.19.0-0'
+    name: metallb
+    sources:
+    - https://github.com/metallb/metallb
+    type: application
+    urls:
+    - charts/metallb-0.14.4.tgz
+    version: 0.14.4
   metrics-server:
   - annotations:
       artifacthub.io/changes: |
@@ -376,7 +595,7 @@ entries:
           description: "Updated the _addon-resizer_ OCI image to [v1.8.20](https://github.com/kubernetes/autoscaler/releases/tag/addon-resizer-1.8.20)."
     apiVersion: v2
     appVersion: 0.7.0
-    created: "2024-04-16T11:20:45.830472604+09:00"
+    created: "2024-04-16T17:30:09.577993021+09:00"
     description: Metrics Server is a scalable, efficient source of container resource
       metrics for Kubernetes built-in autoscaling pipelines.
     digest: 19df2fa9c4c6e1ec4f134da56ae9c3e6b610bfd5674744115c9e9864c5f3debe
@@ -413,7 +632,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 16.1.0
-    created: "2024-04-16T11:20:45.834031818+09:00"
+    created: "2024-04-16T17:30:09.582942424+09:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -445,7 +664,7 @@ entries:
   rook-ceph:
   - apiVersion: v2
     appVersion: v1.13.7
-    created: "2024-04-16T11:20:45.840528382+09:00"
+    created: "2024-04-16T17:30:09.588373069+09:00"
     dependencies:
     - name: library
       repository: file://../library
@@ -462,7 +681,7 @@ entries:
   rook-ceph-cluster:
   - apiVersion: v2
     appVersion: v1.13.7
-    created: "2024-04-16T11:20:45.835498646+09:00"
+    created: "2024-04-16T17:30:09.58505827+09:00"
     dependencies:
     - name: library
       repository: file://../library
@@ -490,7 +709,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 0.37.0-distroless-libc
-    created: "2024-04-16T11:20:45.842059289+09:00"
+    created: "2024-04-16T17:30:09.59120644+09:00"
     description: A lightweight, ultra-fast tool for building observability pipelines
     digest: 82ecab0b1652f86fbaf92fae9d3055e1925ec8343b9fb32c32071614926e2bb0
     home: https://vector.dev/
@@ -513,4 +732,4 @@ entries:
     urls:
     - charts/vector-0.32.0.tgz
     version: 0.32.0
-generated: "2024-04-16T11:20:45.770718241+09:00"
+generated: "2024-04-16T17:30:09.46970947+09:00"
