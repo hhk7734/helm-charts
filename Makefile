@@ -1,3 +1,7 @@
+.PHONY: index
+index:
+	helm repo index .
+
 package:
 	helm package ./charts/knative-operator
 	helm package ./charts/kubeflow
