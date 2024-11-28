@@ -1,0 +1,5 @@
+{{- $crdPath := ternary "files/crd/experimental/**.yaml" "files/crd/standard/**.yaml" .Values.experimental -}}
+{{- range $path, $_ :=  .Files.Glob  $crdPath -}}
+---
+{{ $.Files.Get $path }}
+{{- end -}}
