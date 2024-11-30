@@ -10,7 +10,7 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v2.10.1
-    created: "2024-11-30T13:09:43.379570627+09:00"
+    created: "2024-11-30T13:18:29.810956106+09:00"
     dependencies:
     - condition: redis-ha.enabled
       name: redis-ha
@@ -45,7 +45,7 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v2.9.6
-    created: "2024-11-30T13:09:43.368894172+09:00"
+    created: "2024-11-30T13:18:29.801303785+09:00"
     dependencies:
     - condition: redis-ha.enabled
       name: redis-ha
@@ -74,7 +74,7 @@ entries:
   awx-operator:
   - apiVersion: v2
     appVersion: 2.15.0
-    created: "2024-11-30T13:09:43.380450617+09:00"
+    created: "2024-11-30T13:18:29.811678121+09:00"
     description: A Helm chart for the AWX Operator
     digest: d272279ef0f9b6ce171223450e9f030dfec3fd47adcd29ac39cc335dcd2cb84e
     name: awx-operator
@@ -85,7 +85,7 @@ entries:
   casdoor-helm-charts:
   - apiVersion: v2
     appVersion: v1.762.0
-    created: "2024-11-30T13:09:43.382207951+09:00"
+    created: "2024-11-30T13:18:29.813006573+09:00"
     description: A Helm chart for Kubernetes
     digest: 6adfc9761d262e9face90aab997ef97d6f7f135658b5948124132d5c12701d2c
     name: casdoor-helm-charts
@@ -95,7 +95,7 @@ entries:
     version: v1.762.0
   - apiVersion: v2
     appVersion: v1.514.0
-    created: "2024-11-30T13:09:43.380937832+09:00"
+    created: "2024-11-30T13:18:29.812079351+09:00"
     description: A Helm chart for Kubernetes
     digest: 1f69b376cc43c1e195beaff925d4416cd0dbb8531cd88f722b63ce00ca07b7af
     name: casdoor-helm-charts
@@ -112,7 +112,7 @@ entries:
         url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
     apiVersion: v1
     appVersion: v1.14.5
-    created: "2024-11-30T13:09:43.388358429+09:00"
+    created: "2024-11-30T13:18:29.819130839+09:00"
     description: A Helm chart for cert-manager
     digest: 865bd97a0c1f13d52099f25b74f3c560972206bf52603818b00bc6c5c4278d5a
     home: https://github.com/cert-manager/cert-manager
@@ -141,7 +141,7 @@ entries:
         url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
     apiVersion: v1
     appVersion: v1.13.3
-    created: "2024-11-30T13:09:43.38479355+09:00"
+    created: "2024-11-30T13:18:29.815637366+09:00"
     description: A Helm chart for cert-manager
     digest: f30f3e6f7327f171ecb1ad60079df55639ad6469a80f32e5b60667af950455d5
     home: https://github.com/cert-manager/cert-manager
@@ -288,7 +288,7 @@ entries:
             CiliumPodIPPool defines an IP pool that can be used for pooled IPAM (i.e. the multi-pool IPAM mode).
     apiVersion: v2
     appVersion: 1.14.6
-    created: "2024-11-30T13:09:43.395998247+09:00"
+    created: "2024-11-30T13:18:29.82766649+09:00"
     description: eBPF-based Networking, Security, and Observability
     digest: d6ae0dcedf8368a90c4d44b7d5d52950a67a4e7dd0cfe58965e4aac256fa493d
     home: https://cilium.io/
@@ -311,7 +311,7 @@ entries:
   gateway-api:
   - apiVersion: v2
     appVersion: v1.2.0
-    created: "2024-11-30T13:09:43.402055331+09:00"
+    created: "2024-11-30T13:18:29.832874295+09:00"
     description: Kubernetes Gateway API
     digest: 117837038436b2f6248bc47467be006f267d4175fc6469f52b30d86fbe043e78
     name: gateway-api
@@ -329,7 +329,7 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 11.3.1
-    created: "2024-11-30T13:09:43.409965433+09:00"
+    created: "2024-11-30T13:18:29.84015508+09:00"
     description: The leading tool for querying and visualizing time series and metrics.
     digest: e54f8304820d56afa48f7e85328f70e001de5233eb8862a3bf8dad617e232d35
     home: https://grafana.com
@@ -368,7 +368,7 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 10.4.1
-    created: "2024-11-30T13:09:43.407530275+09:00"
+    created: "2024-11-30T13:18:29.837675635+09:00"
     description: The leading tool for querying and visualizing time series and metrics.
     digest: eb68b49c8074143e064f17bfd31ebd67ebaf07e525426745c07477d4bdef8de4
     home: https://grafana.com
@@ -405,7 +405,7 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 10.4.0
-    created: "2024-11-30T13:09:43.405278057+09:00"
+    created: "2024-11-30T13:18:29.835441422+09:00"
     description: The leading tool for querying and visualizing time series and metrics.
     digest: 7e273851e7eb72417327dfd5115e42ebb032ff88a362c716f4a8666864c2a8ad
     home: https://grafana.com
@@ -436,7 +436,7 @@ entries:
   harbor:
   - apiVersion: v1
     appVersion: 2.10.0
-    created: "2024-11-30T13:09:43.412660194+09:00"
+    created: "2024-11-30T13:18:29.842654497+09:00"
     description: An open source trusted cloud native registry that stores, signs,
       and scans content
     digest: a0ae2ebd3b2bdde809090558d61e2c0b9a4984f09e70a2a874504c3815b346e4
@@ -471,7 +471,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 23.0.7
-    created: "2024-11-30T13:09:43.419866897+09:00"
+    created: "2024-11-30T13:18:29.849663009+09:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -511,7 +511,7 @@ entries:
       artifacthub.io/operator: "true"
     apiVersion: v2
     appVersion: v0.78.2
-    created: "2024-11-30T13:09:43.461081061+09:00"
+    created: "2024-11-30T13:18:29.874115111+09:00"
     dependencies:
     - condition: crds.enabled
       name: crds
@@ -573,7 +573,7 @@ entries:
   kubernetes-replicator:
   - apiVersion: v2
     appVersion: v2.9.2
-    created: "2024-11-30T13:09:43.461349832+09:00"
+    created: "2024-11-30T13:18:29.874412186+09:00"
     description: Controller for replicating secrets+configmaps across namespaces
     digest: 7229545d3bdf075d8fd007d4ab67059f7a63483868efb0aaf506de0b1ff26633
     name: kubernetes-replicator
@@ -584,7 +584,7 @@ entries:
   local-path-provisioner:
   - apiVersion: v1
     appVersion: v0.0.30
-    created: "2024-11-30T13:09:43.462213002+09:00"
+    created: "2024-11-30T13:18:29.875320024+09:00"
     description: Use HostPath for persistent local storage with Kubernetes
     digest: 2586274775406bb5b47f53a1eb3f3ebf6e84598daee75ed1e5a79b873b4c2dfa
     home: https://github.com/rancher/local-path-provisioner
@@ -600,7 +600,7 @@ entries:
     version: 0.0.30
   - apiVersion: v1
     appVersion: v0.0.26
-    created: "2024-11-30T13:09:43.461788649+09:00"
+    created: "2024-11-30T13:18:29.874884352+09:00"
     description: Use HostPath for persistent local storage with Kubernetes
     digest: 7a26dc746b60a67e694e49c52e1b43142c9c98a75d04cccd9ebf2e50f1f7b8ee
     home: https://github.com/rancher/local-path-provisioner
@@ -617,7 +617,7 @@ entries:
   loki-distributed:
   - apiVersion: v2
     appVersion: 2.9.6
-    created: "2024-11-30T13:09:43.469698361+09:00"
+    created: "2024-11-30T13:18:29.882666907+09:00"
     description: Helm chart for Grafana Loki in microservices mode
     digest: c0436b6adfd5dc27b6b81d4b5c62a00cf52c07f1318a5d985e16cb06286e855b
     home: https://grafana.github.io/helm-charts
@@ -635,7 +635,7 @@ entries:
     version: 0.79.0
   - apiVersion: v2
     appVersion: 2.9.5
-    created: "2024-11-30T13:09:43.46591149+09:00"
+    created: "2024-11-30T13:18:29.879006055+09:00"
     description: Helm chart for Grafana Loki in microservices mode
     digest: 1b9f211dcaafb00eed76dd728fa6a683be3680b3a69b98e936e96777f1b3d69b
     home: https://grafana.github.io/helm-charts
@@ -654,7 +654,7 @@ entries:
   metallb:
   - apiVersion: v2
     appVersion: v0.14.4
-    created: "2024-11-30T13:09:43.473402559+09:00"
+    created: "2024-11-30T13:18:29.885429935+09:00"
     dependencies:
     - condition: crds.enabled
       name: crds
@@ -686,7 +686,7 @@ entries:
           description: "Updated the _addon-resizer_ OCI image to [v1.8.20](https://github.com/kubernetes/autoscaler/releases/tag/addon-resizer-1.8.20)."
     apiVersion: v2
     appVersion: 0.7.0
-    created: "2024-11-30T13:09:43.475260341+09:00"
+    created: "2024-11-30T13:18:29.886600802+09:00"
     description: Metrics Server is a scalable, efficient source of container resource
       metrics for Kubernetes built-in autoscaling pipelines.
     digest: 19df2fa9c4c6e1ec4f134da56ae9c3e6b610bfd5674744115c9e9864c5f3debe
@@ -727,7 +727,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 7.0.12
-    created: "2024-11-30T13:09:43.48511+09:00"
+    created: "2024-11-30T13:18:29.894391248+09:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -759,7 +759,7 @@ entries:
   nginx-ingress:
   - apiVersion: v2
     appVersion: 3.5.0
-    created: "2024-11-30T13:09:43.486865456+09:00"
+    created: "2024-11-30T13:18:29.896897916+09:00"
     description: NGINX Ingress Controller
     digest: 24da115473019b9b1d388bf0fde01843a08b7a526743575a5f1c5e7e07909f4f
     home: https://github.com/nginxinc/kubernetes-ingress
@@ -783,6 +783,47 @@ entries:
       category: Database
       images: |
         - name: os-shell
+          image: docker.io/bitnami/os-shell:12-debian-12-r33
+        - name: postgres-exporter
+          image: docker.io/bitnami/postgres-exporter:0.16.0-debian-12-r1
+        - name: postgresql
+          image: docker.io/bitnami/postgresql:17.2.0-debian-12-r1
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 17.2.0
+    created: "2024-11-30T13:18:29.907278339+09:00"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: PostgreSQL (Postgres) is an open source object-relational database
+      known for reliability and data integrity. ACID-compliant, it supports foreign
+      keys, joins, views, triggers and stored procedures.
+    digest: 2e0dbcc32fbd405122ca2117116eeac96223f5a3ecdd95363fba4871c7a7fbfc
+    home: https://bitnami.com
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-220x234.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+    urls:
+    - charts/postgresql-16.2.3.tgz
+    version: 16.2.3
+  - annotations:
+      category: Database
+      images: |
+        - name: os-shell
           image: docker.io/bitnami/os-shell:11-debian-11-r95
         - name: postgres-exporter
           image: docker.io/bitnami/postgres-exporter:0.15.0-debian-11-r6
@@ -791,7 +832,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 16.1.0
-    created: "2024-11-30T13:09:43.490948852+09:00"
+    created: "2024-11-30T13:18:29.902043288+09:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -823,7 +864,7 @@ entries:
   promtail:
   - apiVersion: v2
     appVersion: 2.9.3
-    created: "2024-11-30T13:09:43.49219482+09:00"
+    created: "2024-11-30T13:18:29.908578935+09:00"
     description: Promtail is an agent which ships the contents of local logs to a
       Loki instance
     digest: 8bf485b757bfc7c37e809b60a8f61324c84160c820269fda469cb6270045c514
@@ -845,7 +886,7 @@ entries:
   rook-ceph:
   - apiVersion: v2
     appVersion: v1.15.6
-    created: "2024-11-30T13:09:43.496047758+09:00"
+    created: "2024-11-30T13:18:29.912562925+09:00"
     dependencies:
     - name: library
       repository: file://../library
@@ -873,7 +914,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 0.37.0-distroless-libc
-    created: "2024-11-30T13:09:43.498017819+09:00"
+    created: "2024-11-30T13:18:29.914525951+09:00"
     description: A lightweight, ultra-fast tool for building observability pipelines
     digest: 82ecab0b1652f86fbaf92fae9d3055e1925ec8343b9fb32c32071614926e2bb0
     home: https://vector.dev/
@@ -896,4 +937,4 @@ entries:
     urls:
     - charts/vector-0.32.0.tgz
     version: 0.32.0
-generated: "2024-11-30T13:09:43.358605486+09:00"
+generated: "2024-11-30T13:18:29.789780098+09:00"
